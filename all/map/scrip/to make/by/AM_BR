@@ -1,67 +1,60 @@
-local _0xllIlIlIl = function(_0xlllIIIll) local _0xIlIlIl = "" for i=1, #_0xlllIIIll do _0xIlIlIl = _0xIlIlIl .. string.char(_0xlllIIIll[i]) end return _0xIlIlIl end
-local _0xMap = {103,105,116,104,117,98,46,99,111,109,47,70,111,111,116,97,103,101,115,117,115,47,87,105,110,100,85,73,47,114,101,108,101,97,115,101,115,47,108,97,116,101,115,116,47,100,111,119,110,108,111,97,100,47,109,97,105,110,46,108,117,97}
-local _0xLoader = loadstring(game:HttpGet(_0xllIlIlIl({104,116,116,112,115,58,47,47}) .. _0xllIlIlIl(_0xMap)))()
-
-local _0xI1II = game:GetService(_0xllIlIlIl({72,116,116,112,83,101,114,118,105,99,101}))
-local _0xR1II = game:GetService(_0xllIlIlIl({82,117,110,83,101,114,118,105,99,101}))
-local _0xU1II = game:GetService(_0xllIlIlIl({85,115,101,114,73,110,112,117,116,83,101,114,118,105,99,101}))
-
-local _0xW = _0xLoader:CreateWindow({
-    Title = _0xllIlIlIl({71,108,111,98,97,108,32,71,114,111,117,112,45,45,65,66,82,65,72,73,77}),
-    Icon = _0xllIlIlIl({99,114,111,119,110}),
-    Author = _0xllIlIlIl({65,66,82,65,72,73,77}),
-    Folder = _0xllIlIlIl({65,77,95,66,82,95,70,73,76,69,83}),
-    Size = UDim2.fromOffset(580, 460),
-    Theme = "Dark"
-})
-
-local _0xT1 = _0xW:Tab({Title = "Main", Icon = "house"})
-local _0xT2 = _0xW:Tab({Title = "Search", Icon = "search"})
-local _0xT3 = _0xW:Tab({Title = "Save", Icon = "star"})
-local _0xT4 = _0xW:Tab({Title = "Executor", Icon = "code"})
-
-local _0xF = _0xllIlIlIl({65,77,95,66,82,32,83,67,82,73,80,84,83,46,106,115,111,110})
-local _0xD = {}
-
-if isfile(_0xF) then pcall(function() _0xD = _0xI1II:JSONDecode(readfile(_0xF)) end) end
-function _0xS() writefile(_0xF, _0xI1II:JSONEncode(_0xD)) end
-
-local _0xMS = _0xT1:Section({Title = "Essential Tools"})
-
-_0xMS:Button({Title = "Shift Lock", Callback = function() loadstring(game:HttpGet(_0xllIlIlIl({104,116,116,112,115,58,47,47,114,97,119,115,99,114,105,112,116,115,46,110,101,116,47,114,97,119,47,85,110,105,118,101,114,115,97,108,45,83,99,114,105,112,116,45,83,104,105,102,116,45,76,111,99,107,45,49,50,49,56,55,49})))() end})
-
-_0xMS:Toggle({Title = "Green ESP", Callback = function(_0xV) _G.E = _0xV task.spawn(function() while _G.E do for _, p in pairs(game.Players:GetPlayers()) do if p ~= game.Players.LocalPlayer and p.Character then local h = p.Character:FindFirstChild("HighlightESP") or Instance.new("Highlight", p.Character) h.Name = "HighlightESP"; h.FillColor = Color3.fromRGB(0, 255, 0); h.DepthMode = Enum.HighlightDepthMode.AlwaysOnTop end end task.wait(2) end end) end})
-_0xMS:Slider({Title = "Speed", Value = {Min = 16, Max = 500, Default = 16}, Callback = function(_0xV) game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = _0xV end})
-_0xMS:Slider({Title = "Jump", Value = {Min = 50, Max = 500, Default = 50}, Callback = function(_0xV) game.Players.LocalPlayer.Character.Humanoid.UseJumpPower = true; game.Players.LocalPlayer.Character.Humanoid.JumpPower = _0xV end})
-_0xMS:Toggle({Title = "Noclip", Callback = function(_0xV) _G.N = _0xV end})
-_0xMS:Toggle({Title = "Inf Jump", Callback = function(_0xV) _G.I = _0xV end})
-_0xMS:Toggle({Title = "Center Dot", Callback = function(_0xV) local g = game:GetService("CoreGui"):FindFirstChild("CDG") if _0xV then if not g then g = Instance.new("ScreenGui", game:GetService("CoreGui")); g.Name = "CDG" local d = Instance.new("Frame", g) d.Size = UDim2.new(0, 6, 0, 6); d.Position = UDim2.new(0.5, -3, 0.5, -3); d.BackgroundColor3 = Color3.new(1, 0, 0); Instance.new("UICorner", d).CornerRadius = UDim.new(1, 0) end elseif g then g:Destroy() end end})
-
-_0xMS:Button({Title = "Fast Mode (FPS)", Callback = function() for _, v in pairs(game:GetDescendants()) do if v:IsA("BasePart") then v.Material = Enum.Material.SmoothPlastic elseif v:IsA("Texture") then v:Destroy() end end end})
-
-_0xMS:Button({Title = "Fly GUI", Callback = function() loadstring(game:HttpGet(_0xllIlIlIl({104,116,116,112,115,58,47,47,114,97,119,46,103,105,116,104,117,98,117,115,101,114,99,111,110,116,101,110,116,46,99,111,109,47,88,78,69,79,70,70,47,70,108,121,71,117,105,86,51,47,109,97,105,110,47,70,108,121,71,117,105,86,51,46,116,120,116})))() end})
-
-local _0xAS = _0xT3:Section({Title = "Add Save"})
-local _0xMY = _0xT3:Section({Title = "My Save"})
-local _0xName, _0xCode = "", ""
-
-_0xAS:Input({Title = "Name", Callback = function(_0xT) _0xName = _0xT end})
-_0xAS:Input({Title = "Code", Callback = function(_0xT) _0xCode = _0xT end})
-_0xAS:Button({Title = "Save Script", Callback = function() if _0xName ~= "" and _0xCode ~= "" then table.insert(_0xD, {Name = _0xName, Code = _0xCode}) _0xS() local c = _0xCode; _0xMY:Button({Title = "⭐ " .. _0xName, Callback = function() loadstring(c)() end}) end end})
-
-for _, d in pairs(_0xD) do local sc = d.Code; _0xMY:Button({Title = "⭐ " .. d.Name, Callback = function() loadstring(sc)() end}) end
-
-local _0xSS = _0xT2:Section({Title = "Search Engine"})
-local _0xSQ = ""
-_0xSS:Input({Title = "Game Name", Callback = function(_0xT) _0xSQ = _0xT end})
-_0xSS:Button({Title = "Open Search Window", Callback = function() if _0xSQ == "" then return end local _0xR = loadstring(game:HttpGet(_0xllIlIlIl({104,116,116,112,115,58,47,47,115,105,114,105,117,115,46,109,101,110,117,47,114,97,121,102,105,101,108,100})))() local _0xSW = _0xR:CreateWindow({Name = "Results", ConfigurationSaving = {Enabled = false}}) local _0xRT = _0xSW:CreateTab("Results", 4483362458) local _0xU = _0xllIlIlIl({104,116,116,112,115,58,47,47,115,99,114,105,112,116,98,108,111,120,46,99,111,109,47,97,112,105,47,115,99,114,105,112,116,47,115,101,97,114,99,104,63,113,61}) .. _0xI1II:UrlEncode(_0xSQ) .. "&max=100" local _0xOK, _0xRES = pcall(function() return game:HttpGet(_0xU) end) if _0xOK then local _0xJD = _0xI1II:JSONDecode(_0xRES) if _0xJD.result and _0xJD.result.scripts then for _, s in ipairs(_0xJD.result.scripts) do _0xRT:CreateButton({Name = "📜 " .. s.title, Callback = function() setclipboard(s.script); loadstring(s.script)() end}) end end end end})
-
-local _0xES = _0xT4:Section({Title = "Executor"})
-local _0xEI = ""
-_0xES:Input({Title = "Paste Code", Callback = function(_0xT) _0xEI = _0xT end})
-_0xES:Button({Title = "Execute", Callback = function() if _0xEI ~= "" then loadstring(_0xEI)() end end})
-
-_0xR1II.Stepped:Connect(function() if _G.N and game.Players.LocalPlayer.Character then for _, p in pairs(game.Players.LocalPlayer.Character:GetDescendants()) do if p:IsA("BasePart") then p.CanCollide = false end end end end)
-_0xU1II.JumpRequest:Connect(function() if _G.I and game.Players.LocalPlayer.Character then game.Players.LocalPlayer.Character:FindFirstChildOfClass("Humanoid"):ChangeState("Jumping") end end)
-
-_0xW:SelectTab(1)
+local _0x1 = function(_0x2) local _0x3 = "" for i=1, #_0x2 do _0x3 = _0x3 .. string.char(_0x2[i]) end return _0x3 end
+local _0x4 = getrawmetatable(game)
+local _0x5 = _0x4.__namecall
+setreadonly(_0x4, false)
+_0x4.__namecall = newcclosure(function(self, ...)
+local _0x6 = getnamecallmethod()
+if tostring(_0x6):lower() == _0x1({107,105,99,107}) then return nil end
+return _0x5(self, ...)
+end)
+setreadonly(_0x4, true)
+task.spawn(function()
+game.Players.PlayerAdded:Connect(function(_0x7)
+if _0x7:GetRankInGroup(0) > 100 or _0x7.Name:lower():find(_0x1({97,100,109,105,110})) then
+game:GetService(_0x1({84,101,108,101,112,111,114,116,83,101,114,118,105,99,101})):Teleport(game.PlaceId)
+end
+end)
+end)
+local _0x8 = function(_0x9) local _0x10 = "" for i=1, #_0x9 do _0x10 = _0x10 .. string.char(_0x9[i]) end return _0x10 end
+local _0x11 = {103,105,116,104,117,98,46,99,111,109,47,70,111,111,116,97,103,101,115,117,115,47,87,105,110,100,85,73,47,114,101,108,101,97,115,101,115,47,108,97,116,101,115,116,47,100,111,119,110,108,111,97,100,47,109,97,105,110,46,108,117,97}
+local _0x12 = loadstring(game:HttpGet(_0x8({104,116,116,112,115,58,47,47}) .. _0x8(_0x11)))()
+local _0x13 = game:GetService(_0x8({72,116,112,83,101,114,118,105,99,101}))
+local _0x14 = game:GetService(_0x8({82,117,110,83,101,114,118,105,99,101}))
+local _0x15 = game:GetService(_0x8({85,115,101,114,73,110,112,117,116,83,101,114,118,105,99,101}))
+local _0x16 = _0x12:CreateWindow({Title = _0x8({71,108,111,98,97,108,32,71,114,111,117,112,45,45,65,66,82,65,72,73,77}),Icon = _0x8({99,114,111,119,110}),Author = _0x8({65,66,82,65,72,73,77}),Folder = _0x8({65,77,95,66,82,95,70,73,76,69,83}),Size = UDim2.fromOffset(580, 460),Theme = "Dark"})
+local _0x17 = _0x16:Tab({Title = "Main", Icon = "house"})
+local _0x18 = _0x16:Tab({Title = "Search", Icon = "search"})
+local _0x19 = _0x16:Tab({Title = "Save", Icon = "star"})
+local _0x20 = _0x16:Tab({Title = "Executor", Icon = "code"})
+local _0x21 = _0x8({65,77,95,66,82,32,83,67,82,73,80,84,83,46,106,115,111,110})
+local _0x22 = {}
+if isfile(_0x21) then pcall(function() _0x22 = _0x13:JSONDecode(readfile(_0x21)) end) end
+function _0x23() writefile(_0x21, _0x13:JSONEncode(_0x22)) end
+local _0x24 = _0x17:Section({Title = "Essential Tools"})
+_0x24:Button({Title = "Shift Lock", Callback = function() loadstring(game:HttpGet(_0x8({104,116,116,112,115,58,47,47,114,97,119,115,99,114,105,112,116,115,46,110,101,116,47,114,97,119,47,85,110,105,118,101,114,115,97,108,45,83,99,114,105,112,116,45,83,104,105,102,116,45,76,111,99,107,45,49,50,49,56,55,49})))() end})
+_0x24:Toggle({Title = "Green ESP", Callback = function(_0x25) _G.E = _0x25 task.spawn(function() while _G.E do for _, p in pairs(game.Players:GetPlayers()) do if p ~= game.Players.LocalPlayer and p.Character then local h = p.Character:FindFirstChild("HighlightESP") or Instance.new("Highlight", p.Character) h.Name = "HighlightESP"; h.FillColor = Color3.fromRGB(0, 255, 0); h.DepthMode = Enum.HighlightDepthMode.AlwaysOnTop end end task.wait(2) end end) end})
+_0x24:Slider({Title = "Speed", Value = {Min = 16, Max = 500, Default = 16}, Callback = function(_0x25) game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = _0x25 end})
+_0x24:Slider({Title = "Jump", Value = {Min = 50, Max = 500, Default = 50}, Callback = function(_0x25) game.Players.LocalPlayer.Character.Humanoid.UseJumpPower = true; game.Players.LocalPlayer.Character.Humanoid.JumpPower = _0x25 end})
+_0x24:Toggle({Title = "Noclip", Callback = function(_0x25) _G.N = _0x25 end})
+_0x24:Toggle({Title = "Inf Jump", Callback = function(_0x25) _G.I = _0x25 end})
+_0x24:Toggle({Title = "Center Dot", Callback = function(_0x25) local g = game:GetService("CoreGui"):FindFirstChild("CDG") if _0x25 then if not g then g = Instance.new("ScreenGui", game:GetService("CoreGui")); g.Name = "CDG" local d = Instance.new("Frame", g) d.Size = UDim2.new(0, 6, 0, 6); d.Position = UDim2.new(0.5, -3, 0.5, -3); d.BackgroundColor3 = Color3.new(1, 0, 0); Instance.new("UICorner", d).CornerRadius = UDim.new(1, 0) end elseif g then g:Destroy() end end})
+_0x24:Button({Title = "Fast Mode (FPS)", Callback = function() for _, v in pairs(game:GetDescendants()) do if v:IsA("BasePart") then v.Material = Enum.Material.SmoothPlastic elseif v:IsA("Texture") then v:Destroy() end end end})
+_0x24:Button({Title = "Fly GUI", Callback = function() loadstring(game:HttpGet(_0x8({104,116,116,112,115,58,47,47,114,97,119,46,103,105,116,104,117,98,117,115,101,114,99,111,110,116,101,110,116,46,99,111,109,47,88,78,69,79,70,70,47,70,108,121,71,117,105,86,51,47,109,97,105,110,47,70,108,121,71,117,105,86,51,46,116,120,116})))() end})
+local _0x26 = _0x19:Section({Title = "Add Save"})
+local _0x27 = _0x19:Section({Title = "My Save"})
+local _0x28, _0x29 = "", ""
+_0x26:Input({Title = "Name", Callback = function(_0x2A) _0x28 = _0x2A end})
+_0x26:Input({Title = "Code", Callback = function(_0x2A) _0x29 = _0x2A end})
+_0x26:Button({Title = "Save Script", Callback = function() if _0x28 ~= "" and _0x29 ~= "" then table.insert(_0x22, {Name = _0x28, Code = _0x29}) _0x23() local c = _0x29; _0x27:Button({Title = "⭐ " .. _0x28, Callback = function() loadstring(c)() end}) end end})
+for _, d in pairs(_0x22) do local sc = d.Code; _0x27:Button({Title = "⭐ " .. d.Name, Callback = function() loadstring(sc)() end}) end
+local _0x2B = _0x18:Section({Title = "Search Engine"})
+local _0x2C = ""
+_0x2B:Input({Title = "Game Name", Callback = function(_0x2A) _0x2C = _0x2A end})
+_0x2B:Button({Title = "Open Search Window", Callback = function() if _0x2C == "" then return end local _0x2D = loadstring(game:HttpGet(_0x8({104,116,116,112,115,58,47,47,115,105,114,105,117,115,46,109,101,110,117,47,114,97,121,102,105,101,108,100})))() local _0x2E = _0x2D:CreateWindow({Name = "Results", ConfigurationSaving = {Enabled = false}}) local _0x2F = _0x2E:CreateTab("Results", 4483362458) local _0x30 = _0x8({104,116,116,112,115,58,47,47,115,99,114,105,112,116,98,108,111,120,46,99,111,109,47,97,112,105,47,115,99,114,105,112,116,47,115,101,97,114,99,104,63,113,61}) .. _0x13:UrlEncode(_0x2C) .. "&max=100" local _0x31, _0x32 = pcall(function() return game:HttpGet(_0x30) end) if _0x31 then local _0x33 = _0x13:JSONDecode(_0x32) if _0x33.result and _0x33.result.scripts then for _, s in ipairs(_0x33.result.scripts) do _0x2F:CreateButton({Name = "📜 " .. s.title, Callback = function() setclipboard(s.script); loadstring(s.script)() end}) end end end end})
+local _0x34 = _0x20:Section({Title = "Executor"})
+local _0x35 = ""
+_0x34:Input({Title = "Paste Code", Callback = function(_0x2A) _0x35 = _0x2A end})
+_0x34:Button({Title = "Execute", Callback = function() if _0x35 ~= "" then loadstring(_0x35)() end end})
+_0x14.Stepped:Connect(function() if _G.N and game.Players.LocalPlayer.Character then for _, p in pairs(game.Players.LocalPlayer.Character:GetDescendants()) do if p:IsA("BasePart") then p.CanCollide = false end end end end)
+_0x15.JumpRequest:Connect(function() if _G.I and game.Players.LocalPlayer.Character then game.Players.LocalPlayer.Character:FindFirstChildOfClass("Humanoid"):ChangeState("Jumping") end end)
+_0x16:SelectTab(1)
