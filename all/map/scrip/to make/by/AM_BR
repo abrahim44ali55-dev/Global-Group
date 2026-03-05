@@ -1,122 +1,150 @@
--- نظام الحماية من الطرد
-local mt = getrawmetatable(game)
-local old = mt.__namecall
-setreadonly(mt, false)
-mt.__namecall = newcclosure(function(self, ...)
-    local method = getnamecallmethod()
-    if tostring(method):lower() == "kick" then return nil end
-    return old(self, ...)
-end)
-setreadonly(mt, true)
+local WindUI = loadstring(game:HttpGet("https://github.com/Footagesus/WindUI/releases/latest/download/main.lua"))()
+local HttpService = game:GetService("HttpService")
+local RunService = game:GetService("RunService")
+local UserInputService = game:GetService("UserInputService")
 
--- نظام كاشف الأدمن والهروب
-task.spawn(function()
-    game.Players.PlayerAdded:Connect(function(player)
-        if player:GetRankInGroup(0) > 100 or player.Name:lower():find("admin") or player.Name:lower():find("mod") then
-            game:GetService("TeleportService"):Teleport(game.PlaceId)
-        end
-    end)
-end)
-
--- تحميل مكتبة الواجهة
-local WindUI = loadstring(game:HttpGet("https://raw.githubusercontent.com/Footagesus/WindUI/releases/latest/download/main.lua"))()
-
--- إنشاء النافذة
 local Window = WindUI:CreateWindow({
     Title = "Global Group--ABRAHIM",
     Icon = "crown",
     Author = "ABRAHIM",
-    Folder = "AM_BR_FILES",
+    Folder = "GlobalGroup_Files",
     Size = UDim2.fromOffset(580, 460),
     Theme = "Dark"
 })
 
--- التبويبات
-local MainTab = Window:Tab({Title = "Main", Icon = "house"})
-local SearchTab = Window:Tab({Title = "Search", Icon = "search"})
-local SaveTab = Window:Tab({Title = "Save", Icon = "star"})
-local ExecTab = Window:Tab({Title = "Executor", Icon = "code"})
+local MainTab = Window:Tab({ Title = "Main", Icon = "house" })
+local SBTab = Window:Tab({ Title = "Search", Icon = "search" })
+local SaveTab = Window:Tab({ Title = "Save", Icon = "star" })
+local ExecTab = Window:Tab({ Title = "Executor", Icon = "code" })
 
-local MainSection = MainTab:Section({Title = "Essential Tools"})
+local SaveFile = "AM_BR SCRIPTS.json"
+local SavedScripts = {}
 
--- الأزرار والأدوات
-MainSection:Button({Title = "Shift Lock", Callback = function() 
+if isfile(SaveFile) then
+    pcall(function()
+        SavedScripts = HttpService:JSONDecode(readfile(SaveFile))
+    end)
+end
+
+local function SaveToDevice()
+    writefile(SaveFile, HttpService:JSONEncode(SavedScripts))
+end
+
+local MainSect = MainTab:Section({ Title = "Essential Tools" })
+
+MainSect:Button({ Title = "Shift Lock (Direct)", Callback = function() 
     loadstring(game:HttpGet("https://rawscripts.net/raw/Universal-Script-Shift-Lock-121871"))() 
-end})
+end })
 
-MainSection:Toggle({Title = "Green ESP", Callback = function(v) 
-    _G.E = v 
-    task.spawn(function() 
-        while _G.E do 
-            for _, p in pairs(game.Players:GetPlayers()) do 
-                if p ~= game.Players.LocalPlayer and p.Character then 
-                    local h = p.Character:FindFirstChild("HighlightESP") or Instance.new("Highlight", p.Character) 
-                    h.Name = "HighlightESP"; h.FillColor = Color3.fromRGB(0, 255, 0); h.DepthMode = Enum.HighlightDepthMode.AlwaysOnTop 
-                end 
-            end 
-            task.wait(2) 
-        end 
-    end) 
-end})
+MainSect:Toggle({ Title = "Green ESP (Wallhack)", Callback = function(v) 
+    _G.ESP_Enabled = v 
+    task.spawn(function()
+        while _G.ESP_Enabled do
+            for _, p in pairs(game.Players:GetPlayers()) do
+                if p ~= game.Players.LocalPlayer and p.Character then
+                    local hl = p.Character:FindFirstChild("HighlightESP") or Instance.new("Highlight", p.Character)
+                    hl.Name = "HighlightESP"; hl.FillColor = Color3.fromRGB(0, 255, 0); hl.DepthMode = Enum.HighlightDepthMode.AlwaysOnTop
+                end
+            end
+            task.wait(2)
+        end
+    end)
+end })
 
-MainSection:Slider({Title = "Speed", Value = {Min = 16, Max = 500, Default = 16}, Callback = function(v) 
-    game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = v 
-end})
+MainSect:Slider({ Title = "WalkSpeed", Value = { Min = 16, Max = 500, Default = 16 }, Callback = function(v) game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = v end })
+MainSect:Slider({ Title = "JumpPower", Value = { Min = 50, Max = 500, Default = 50 }, Callback = function(v) game.Players.LocalPlayer.Character.Humanoid.UseJumpPower = true game.Players.LocalPlayer.Character.Humanoid.JumpPower = v end })
+MainSect:Toggle({ Title = "Noclip", Callback = function(v) _G.Noclip = v end })
+MainSect:Toggle({ Title = "Infinite Jump", Callback = function(v) _G.InfJump = v end })
+MainSect:Toggle({ Title = "Center Dot", Callback = function(v)
+    local gui = game:GetService("CoreGui"):FindFirstChild("CenterDotGui")
+    if v then
+        if not gui then
+            gui = Instance.new("ScreenGui", game:GetService("CoreGui")); gui.Name = "CenterDotGui"
+            local dot = Instance.new("Frame", gui)
+            dot.Size = UDim2.new(0, 6, 0, 6); dot.Position = UDim2.new(0.5, -3, 0.5, -3)
+            dot.BackgroundColor3 = Color3.new(1, 0, 0); dot.BorderSizePixel = 0; Instance.new("UICorner", dot).CornerRadius = UDim.new(1, 0)
+        end
+    elseif gui then gui:Destroy() end
+end })
+MainSect:Button({ Title = "🚀 Fast Mode (FPS)", Callback = function()
+    for _, v in pairs(game:GetDescendants()) do
+        if v:IsA("BasePart") then v.Material = Enum.Material.SmoothPlastic elseif v:IsA("Texture") then v:Destroy() end
+    end
+end })
+MainSect:Button({ Title = "Fly GUI", Callback = function() loadstring(game:HttpGet("https://raw.githubusercontent.com/XNEOFF/FlyGuiV3/main/FlyGuiV3.txt"))() end })
 
-MainSection:Slider({Title = "Jump", Value = {Min = 50, Max = 500, Default = 50}, Callback = function(v) 
-    game.Players.LocalPlayer.Character.Humanoid.UseJumpPower = true
-    game.Players.LocalPlayer.Character.Humanoid.JumpPower = v 
-end})
+local AddSect = SaveTab:Section({ Title = "Add Save ^" })
+local MySect = SaveTab:Section({ Title = "My Save" })
 
-MainSection:Toggle({Title = "Noclip", Callback = function(v) _G.N = v end})
-MainSection:Toggle({Title = "Inf Jump", Callback = function(v) _G.I = v end})
+local NewName, NewCode = "", ""
+AddSect:Input({ Title = "Script Name", Callback = function(t) NewName = t end })
+AddSect:Input({ Title = "Script Code", Callback = function(t) NewCode = t end })
 
-MainSection:Button({Title = "Fast Mode (FPS)", Callback = function() 
-    for _, v in pairs(game:GetDescendants()) do 
-        if v:IsA("BasePart") then v.Material = Enum.Material.SmoothPlastic 
-        elseif v:IsA("Texture") then v:Destroy() end 
-    end 
-end})
-
-MainSection:Button({Title = "Fly GUI", Callback = function() 
-    loadstring(game:HttpGet("https://raw.githubusercontent.com/XNEOFF/FlyGuiV3/main/FlyGuiV3.txt"))() 
-end})
-
--- نظام الحفظ
-local SaveSection = SaveTab:Section({Title = "My Scripts"})
--- (ملاحظة: نظام الحفظ يتطلب صلاحيات كتابة ملفات في المستخرج)
-
--- نظام البحث
-local SearchSection = SearchTab:Section({Title = "Search Engine"})
-local SearchQuery = ""
-SearchSection:Input({Title = "Game Name", Callback = function(t) SearchQuery = t end})
-SearchSection:Button({Title = "Search Scripts", Callback = function() 
-    if SearchQuery == "" then return end
-    print("Searching for: " .. SearchQuery)
-    -- هنا يتم تشغيل محرك بحث خارجي
-end})
-
--- المستخرج الداخلي
-local ExecSection = ExecTab:Section({Title = "Executor"})
-local ExecInput = ""
-ExecSection:Input({Title = "Paste Code", Callback = function(t) ExecInput = t end})
-ExecSection:Button({Title = "Execute", Callback = function() 
-    if ExecInput ~= "" then loadstring(ExecInput)() end 
-end})
-
--- وظائف التحديث المستمر (Noclip / Inf Jump)
-game:GetService("RunService").Stepped:Connect(function()
-    if _G.N and game.Players.LocalPlayer.Character then
-        for _, p in pairs(game.Players.LocalPlayer.Character:GetDescendants()) do
-            if p:IsA("BasePart") then p.CanCollide = false end
+AddSect:Button({
+    Title = "💾 Save Script",
+    Callback = function()
+        if NewName ~= "" and NewCode ~= "" then
+            table.insert(SavedScripts, {Name = NewName, Code = NewCode})
+            SaveToDevice()
+            local currentCode = NewCode
+            MySect:Button({
+                Title = "⭐ " .. NewName,
+                Callback = function() loadstring(currentCode)() end
+            })
+            WindUI:Notify({Title = "Success", Content = "Script Saved!", Type = "Success"})
         end
     end
-end)
+})
 
-game:GetService("UserInputService").JumpRequest:Connect(function()
-    if _G.I and game.Players.LocalPlayer.Character then
-        game.Players.LocalPlayer.Character:FindFirstChildOfClass("Humanoid"):ChangeState("Jumping")
+for _, data in pairs(SavedScripts) do
+    local scriptCode = data.Code
+    MySect:Button({
+        Title = "⭐ " .. data.Name,
+        Callback = function() loadstring(scriptCode)() end
+    })
+end
+
+local SBSect = SBTab:Section({ Title = "Search Engine" })
+local SQuery = ""
+SBSect:Input({ Title = "Type Game Name...", Callback = function(t) SQuery = t end })
+SBSect:Button({
+    Title = "🔍 Open Search Window",
+    Callback = function()
+        if SQuery == "" then return end
+        local Rayfield = loadstring(game:HttpGet('https://sirius.menu/rayfield'))()
+        local SearchWin = Rayfield:CreateWindow({Name = "Results", ConfigurationSaving = {Enabled = false}})
+        local ResTab = SearchWin:CreateTab("Results", 4483362458)
+        
+        local url = "https://scriptblox.com/api/script/search?q=" .. HttpService:UrlEncode(SQuery) .. "&max=100"
+        local success, res = pcall(function() return game:HttpGet(url) end)
+        if success then
+            local data = HttpService:JSONDecode(res)
+            if data.result and data.result.scripts then
+                for i, s in ipairs(data.result.scripts) do
+                    local mapName = s.game.name or "Universal"
+                    ResTab:CreateButton({
+                        Name = "📜 " .. s.title .. " (" .. mapName .. ")",
+                        Callback = function() 
+                            setclipboard(s.script)
+                            loadstring(s.script)() 
+                        end,
+                    })
+                end
+            end
+        end
     end
+})
+
+local ExSect = ExecTab:Section({ Title = "Executor" })
+local CodeInput = ""
+ExSect:Input({ Title = "Paste Script Here", Callback = function(t) CodeInput = t end })
+ExSect:Button({ Title = "Execute", Callback = function() if CodeInput ~= "" then loadstring(CodeInput)() end end })
+
+RunService.Stepped:Connect(function() 
+    if _G.Noclip and game.Players.LocalPlayer.Character then 
+        for _, p in pairs(game.Players.LocalPlayer.Character:GetDescendants()) do if p:IsA("BasePart") then p.CanCollide = false end end 
+    end 
 end)
+UserInputService.JumpRequest:Connect(function() if _G.InfJump and game.Players.LocalPlayer.Character then game.Players.LocalPlayer.Character:FindFirstChildOfClass("Humanoid"):ChangeState("Jumping") end end)
 
 Window:SelectTab(1)
