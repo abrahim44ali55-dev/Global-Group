@@ -1,9 +1,12 @@
-local WindUI = loadstring(game:HttpGet("https://github.com/Footagesus/WindUI/releases/latest/download/main.lua"))()
-local HttpService = game:GetService("HttpService")
-local RunService = game:GetService("RunService")
-local UserInputService = game:GetService("UserInputService")
+-- [[ GGH HUB - PROTECTED VERSION ]] --
+-- [[ AUTHOR: ABRAHIM ]] --
 
-local Window = WindUI:CreateWindow({
+local _0x_v1 = loadstring(game:HttpGet("https://github.com/Footagesus/WindUI/releases/latest/download/main.lua"))()
+local _0x_v2 = game:GetService("HttpService")
+local _0x_v3 = game:GetService("RunService")
+local _0x_v4 = game:GetService("UserInputService")
+
+local _0x_v5 = _0x_v1:CreateWindow({
     Title = "Global Group--ABRAHIM",
     Icon = "crown",
     Author = "ABRAHIM",
@@ -12,32 +15,32 @@ local Window = WindUI:CreateWindow({
     Theme = "Dark"
 })
 
-local MainTab = Window:Tab({ Title = "Main", Icon = "house" })
-local SBTab = Window:Tab({ Title = "Search", Icon = "search" })
-local SaveTab = Window:Tab({ Title = "Save", Icon = "star" })
-local ExecTab = Window:Tab({ Title = "Executor", Icon = "code" })
+local _0x_t1 = _0x_v5:Tab({ Title = "Main", Icon = "house" })
+local _0x_t2 = _0x_v5:Tab({ Title = "Search", Icon = "search" })
+local _0x_t3 = _0x_v5:Tab({ Title = "Save", Icon = "star" })
+local _0x_t4 = _0x_v5:Tab({ Title = "Executor", Icon = "code" })
 
-local SaveFile = "AM_BR SCRIPTS.json"
-local SavedScripts = {}
+local _0x_f1 = "AM_BR SCRIPTS.json"
+local _0x_d1 = {}
 
-if isfile(SaveFile) then
+if isfile(_0x_f1) then
     pcall(function()
-        SavedScripts = HttpService:JSONDecode(readfile(SaveFile))
+        _0x_d1 = _0x_v2:JSONDecode(readfile(_0x_f1))
     end)
 end
 
-local function SaveToDevice()
-    writefile(SaveFile, HttpService:JSONEncode(SavedScripts))
+local function _0x_func_save()
+    writefile(_0x_f1, _0x_v2:JSONEncode(_0x_d1))
 end
 
-local MainSect = MainTab:Section({ Title = "Essential Tools" })
+local _0x_s1 = _0x_t1:Section({ Title = "Essential Tools" })
 
-MainSect:Button({ Title = "Shift Lock (Direct)", Callback = function() 
+_0x_s1:Button({ Title = "Shift Lock (Direct)", Callback = function() 
     loadstring(game:HttpGet("https://rawscripts.net/raw/Universal-Script-Shift-Lock-121871"))() 
 end })
 
-MainSect:Toggle({ Title = "Green ESP (Wallhack)", Callback = function(v) 
-    _G.ESP_Enabled = v 
+_0x_s1:Toggle({ Title = "Green ESP (Wallhack)", Callback = function(_0x_bool) 
+    _G.ESP_Enabled = _0x_bool 
     task.spawn(function()
         while _G.ESP_Enabled do
             for _, p in pairs(game.Players:GetPlayers()) do
@@ -51,11 +54,11 @@ MainSect:Toggle({ Title = "Green ESP (Wallhack)", Callback = function(v)
     end)
 end })
 
-MainSect:Slider({ Title = "WalkSpeed", Value = { Min = 16, Max = 500, Default = 16 }, Callback = function(v) game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = v end })
-MainSect:Slider({ Title = "JumpPower", Value = { Min = 50, Max = 500, Default = 50 }, Callback = function(v) game.Players.LocalPlayer.Character.Humanoid.UseJumpPower = true game.Players.LocalPlayer.Character.Humanoid.JumpPower = v end })
-MainSect:Toggle({ Title = "Noclip", Callback = function(v) _G.Noclip = v end })
-MainSect:Toggle({ Title = "Infinite Jump", Callback = function(v) _G.InfJump = v end })
-MainSect:Toggle({ Title = "Center Dot", Callback = function(v)
+_0x_s1:Slider({ Title = "WalkSpeed", Value = { Min = 16, Max = 500, Default = 16 }, Callback = function(v) game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = v end })
+_0x_s1:Slider({ Title = "JumpPower", Value = { Min = 50, Max = 500, Default = 50 }, Callback = function(v) game.Players.LocalPlayer.Character.Humanoid.UseJumpPower = true game.Players.LocalPlayer.Character.Humanoid.JumpPower = v end })
+_0x_s1:Toggle({ Title = "Noclip", Callback = function(v) _G.Noclip = v end })
+_0x_s1:Toggle({ Title = "Infinite Jump", Callback = function(v) _G.InfJump = v end })
+_0x_s1:Toggle({ Title = "Center Dot", Callback = function(v)
     local gui = game:GetService("CoreGui"):FindFirstChild("CenterDotGui")
     if v then
         if not gui then
@@ -66,64 +69,64 @@ MainSect:Toggle({ Title = "Center Dot", Callback = function(v)
         end
     elseif gui then gui:Destroy() end
 end })
-MainSect:Button({ Title = "🚀 Fast Mode (FPS)", Callback = function()
+_0x_s1:Button({ Title = "🚀 Fast Mode (FPS)", Callback = function()
     for _, v in pairs(game:GetDescendants()) do
         if v:IsA("BasePart") then v.Material = Enum.Material.SmoothPlastic elseif v:IsA("Texture") then v:Destroy() end
     end
 end })
-MainSect:Button({ Title = "Fly GUI", Callback = function() loadstring(game:HttpGet("https://raw.githubusercontent.com/XNEOFF/FlyGuiV3/main/FlyGuiV3.txt"))() end })
+_0x_s1:Button({ Title = "Fly GUI", Callback = function() loadstring(game:HttpGet("https://raw.githubusercontent.com/XNEOFF/FlyGuiV3/main/FlyGuiV3.txt"))() end })
 
-local AddSect = SaveTab:Section({ Title = "Add Save ^" })
-local MySect = SaveTab:Section({ Title = "My Save" })
+local _0x_s2 = _0x_t3:Section({ Title = "Add Save ^" })
+local _0x_s3 = _0x_t3:Section({ Title = "My Save" })
 
-local NewName, NewCode = "", ""
-AddSect:Input({ Title = "Script Name", Callback = function(t) NewName = t end })
-AddSect:Input({ Title = "Script Code", Callback = function(t) NewCode = t end })
+local _0x_n1, _0x_c1 = "", ""
+_0x_s2:Input({ Title = "Script Name", Callback = function(t) _0x_n1 = t end })
+_0x_s2:Input({ Title = "Script Code", Callback = function(t) _0x_c1 = t end })
 
-AddSect:Button({
+_0x_s2:Button({
     Title = "💾 Save Script",
     Callback = function()
-        if NewName ~= "" and NewCode ~= "" then
-            table.insert(SavedScripts, {Name = NewName, Code = NewCode})
-            SaveToDevice()
-            local currentCode = NewCode
-            MySect:Button({
-                Title = "⭐ " .. NewName,
-                Callback = function() loadstring(currentCode)() end
+        if _0x_n1 ~= "" and _0x_c1 ~= "" then
+            table.insert(_0x_d1, {Name = _0x_n1, Code = _0x_c1})
+            _0x_func_save()
+            local _0x_tmp = _0x_c1
+            _0x_s3:Button({
+                Title = "⭐ " .. _0x_n1,
+                Callback = function() loadstring(_0x_tmp)() end
             })
-            WindUI:Notify({Title = "Success", Content = "Script Saved!", Type = "Success"})
+            _0x_v1:Notify({Title = "Success", Content = "Script Saved!", Type = "Success"})
         end
     end
 })
 
-for _, data in pairs(SavedScripts) do
-    local scriptCode = data.Code
-    MySect:Button({
+for _, data in pairs(_0x_d1) do
+    local _0x_code = data.Code
+    _0x_s3:Button({
         Title = "⭐ " .. data.Name,
-        Callback = function() loadstring(scriptCode)() end
+        Callback = function() loadstring(_0x_code)() end
     })
 end
 
-local SBSect = SBTab:Section({ Title = "Search Engine" })
-local SQuery = ""
-SBSect:Input({ Title = "Type Game Name...", Callback = function(t) SQuery = t end })
-SBSect:Button({
+local _0x_s4 = _0x_t2:Section({ Title = "Search Engine" })
+local _0x_q1 = ""
+_0x_s4:Input({ Title = "Type Game Name...", Callback = function(t) _0x_q1 = t end })
+_0x_s4:Button({
     Title = "🔍 Open Search Window",
     Callback = function()
-        if SQuery == "" then return end
-        local Rayfield = loadstring(game:HttpGet('https://sirius.menu/rayfield'))()
-        local SearchWin = Rayfield:CreateWindow({Name = "Results", ConfigurationSaving = {Enabled = false}})
-        local ResTab = SearchWin:CreateTab("Results", 4483362458)
+        if _0x_q1 == "" then return end
+        local _0x_rf = loadstring(game:HttpGet('https://sirius.menu/rayfield'))()
+        local _0x_win = _0x_rf:CreateWindow({Name = "Results", ConfigurationSaving = {Enabled = false}})
+        local _0x_rt = _0x_win:CreateTab("Results", 4483362458)
         
-        local url = "https://scriptblox.com/api/script/search?q=" .. HttpService:UrlEncode(SQuery) .. "&max=100"
-        local success, res = pcall(function() return game:HttpGet(url) end)
-        if success then
-            local data = HttpService:JSONDecode(res)
-            if data.result and data.result.scripts then
-                for i, s in ipairs(data.result.scripts) do
-                    local mapName = s.game.name or "Universal"
-                    ResTab:CreateButton({
-                        Name = "📜 " .. s.title .. " (" .. mapName .. ")",
+        local _0x_u = "https://scriptblox.com/api/script/search?q=" .. _0x_v2:UrlEncode(_0x_q1) .. "&max=100"
+        local _0x_ok, _0x_res = pcall(function() return game:HttpGet(_0x_u) end)
+        if _0x_ok then
+            local _0x_json = _0x_v2:JSONDecode(_0x_res)
+            if _0x_json.result and _0x_json.result.scripts then
+                for _, s in ipairs(_0x_json.result.scripts) do
+                    local _0x_map = s.game.name or "Universal"
+                    _0x_rt:CreateButton({
+                        Name = "📜 " .. s.title .. " (" .. _0x_map .. ")",
                         Callback = function() 
                             setclipboard(s.script)
                             loadstring(s.script)() 
@@ -135,16 +138,16 @@ SBSect:Button({
     end
 })
 
-local ExSect = ExecTab:Section({ Title = "Executor" })
-local CodeInput = ""
-ExSect:Input({ Title = "Paste Script Here", Callback = function(t) CodeInput = t end })
-ExSect:Button({ Title = "Execute", Callback = function() if CodeInput ~= "" then loadstring(CodeInput)() end end })
+local _0x_s5 = _0x_t4:Section({ Title = "Executor" })
+local _0x_in = ""
+_0x_s5:Input({ Title = "Paste Script Here", Callback = function(t) _0x_in = t end })
+_0x_s5:Button({ Title = "Execute", Callback = function() if _0x_in ~= "" then loadstring(_0x_in)() end end })
 
-RunService.Stepped:Connect(function() 
+_0x_v3.Stepped:Connect(function() 
     if _G.Noclip and game.Players.LocalPlayer.Character then 
         for _, p in pairs(game.Players.LocalPlayer.Character:GetDescendants()) do if p:IsA("BasePart") then p.CanCollide = false end end 
     end 
 end)
-UserInputService.JumpRequest:Connect(function() if _G.InfJump and game.Players.LocalPlayer.Character then game.Players.LocalPlayer.Character:FindFirstChildOfClass("Humanoid"):ChangeState("Jumping") end end)
+_0x_v4.JumpRequest:Connect(function() if _G.InfJump and game.Players.LocalPlayer.Character then game.Players.LocalPlayer.Character:FindFirstChildOfClass("Humanoid"):ChangeState("Jumping") end end)
 
-Window:SelectTab(1)
+_0x_v5:SelectTab(1)
