@@ -1,163 +1,127 @@
--- GGH Library ULTIMATE (AM_BRCR7 ROYAL EDITION)
--- ALL ELEMENTS INCLUDED: Tabs, Buttons, Sliders, Toggles, Textboxes, Dropdowns, Multi-Select, Top-PopUp Settings
+-- GGH Library SUPREME (AM_BRCR7 ROYAL EDITION)
+-- FULL ELEMENTS + TOP CONTROLS + POP-UP SYSTEM
 local Lib = {}
 local UserInputService = game:GetService("UserInputService")
 local TweenService = game:GetService("TweenService")
 local LocalPlayer = game:GetService("Players").LocalPlayer
 local Mouse = LocalPlayer:GetMouse()
 
--- [ 1. مصفوفة الثيمات الـ 10 ]
+-- [ 1. الثيمات الـ 10 ]
 Lib.Themes = {
-    Blood = {Main = Color3.fromRGB(20, 20, 20), Accent = Color3.fromRGB(255, 0, 0), Text = Color3.fromRGB(255, 255, 255), Darker = Color3.fromRGB(15, 15, 15)},
-    Blue = {Main = Color3.fromRGB(20, 20, 20), Accent = Color3.fromRGB(0, 150, 255), Text = Color3.fromRGB(255, 255, 255), Darker = Color3.fromRGB(15, 15, 15)},
-    Dark = {Main = Color3.fromRGB(15, 15, 15), Accent = Color3.fromRGB(50, 50, 50), Text = Color3.fromRGB(200, 200, 200), Darker = Color3.fromRGB(10, 10, 10)},
-    Light = {Main = Color3.fromRGB(245, 245, 245), Accent = Color3.fromRGB(100, 100, 100), Text = Color3.fromRGB(30, 30, 30), Darker = Color3.fromRGB(220, 220, 220)},
+    Blood = {Main = Color3.fromRGB(15, 15, 15), Accent = Color3.fromRGB(255, 0, 0), Text = Color3.fromRGB(255, 255, 255), Darker = Color3.fromRGB(10, 10, 10)},
+    Blue = {Main = Color3.fromRGB(15, 15, 15), Accent = Color3.fromRGB(0, 150, 255), Text = Color3.fromRGB(255, 255, 255), Darker = Color3.fromRGB(10, 10, 10)},
     Midnight = {Main = Color3.fromRGB(10, 10, 15), Accent = Color3.fromRGB(90, 0, 200), Text = Color3.fromRGB(255, 255, 255), Darker = Color3.fromRGB(5, 5, 8)},
     Emerald = {Main = Color3.fromRGB(15, 20, 15), Accent = Color3.fromRGB(0, 255, 120), Text = Color3.fromRGB(255, 255, 255), Darker = Color3.fromRGB(10, 15, 10)},
-    Amethyst = {Main = Color3.fromRGB(20, 15, 25), Accent = Color3.fromRGB(180, 50, 255), Text = Color3.fromRGB(255, 255, 255), Darker = Color3.fromRGB(15, 10, 20)},
-    Ocean = {Main = Color3.fromRGB(15, 20, 30), Accent = Color3.fromRGB(0, 200, 255), Text = Color3.fromRGB(255, 255, 255), Darker = Color3.fromRGB(10, 15, 25)},
+    Rose = {Main = Color3.fromRGB(25, 20, 20), Accent = Color3.fromRGB(255, 80, 150), Text = Color3.fromRGB(255, 255, 255), Darker = Color3.fromRGB(20, 15, 15)},
     Vape = {Main = Color3.fromRGB(20, 20, 20), Accent = Color3.fromRGB(170, 100, 255), Text = Color3.fromRGB(255, 255, 255), Darker = Color3.fromRGB(15, 15, 15)},
-    Rose = {Main = Color3.fromRGB(25, 20, 20), Accent = Color3.fromRGB(255, 80, 150), Text = Color3.fromRGB(255, 255, 255), Darker = Color3.fromRGB(20, 15, 15)}
-}
-
--- [ 2. مصفوفة الأيقونات الـ 30 ]
-Lib.Icons = {
-    Crown = "rbxassetid://10734952504", Settings = "rbxassetid://10734950309", Close = "rbxassetid://10747363105",
-    Player = "rbxassetid://10747373176", Run = "rbxassetid://10747384239", Sword = "rbxassetid://10747370631",
-    Star = "rbxassetid://10884434509", Fire = "rbxassetid://10747369161", Skull = "rbxassetid://10747363105",
-    Target = "rbxassetid://10884436850", Shield = "rbxassetid://10734950641", Ghost = "rbxassetid://10747365021",
-    Eye = "rbxassetid://10709810534", Bell = "rbxassetid://10734950020", Key = "rbxassetid://10709800835",
-    Lock = "rbxassetid://10709799276", Flash = "rbxassetid://10734952011", Moon = "rbxassetid://10709795103",
-    Sun = "rbxassetid://10709791523", Gift = "rbxassetid://10709803131", Wifi = "rbxassetid://10709781123",
-    Tool = "rbxassetid://10709789123", Heart = "rbxassetid://10709819149", Map = "rbxassetid://10709805904",
-    Check = "rbxassetid://10709775123", Cross = "rbxassetid://10709772123", Plus = "rbxassetid://10709769123",
-    Minus = "rbxassetid://10709766123", Zoom = "rbxassetid://10709778123", User = "rbxassetid://10709784110"
+    Ocean = {Main = Color3.fromRGB(15, 20, 30), Accent = Color3.fromRGB(0, 200, 255), Text = Color3.fromRGB(255, 255, 255), Darker = Color3.fromRGB(10, 15, 25)},
+    Amethyst = {Main = Color3.fromRGB(20, 15, 25), Accent = Color3.fromRGB(180, 50, 255), Text = Color3.fromRGB(255, 255, 255), Darker = Color3.fromRGB(15, 10, 20)},
+    Dark = {Main = Color3.fromRGB(10, 10, 10), Accent = Color3.fromRGB(60, 60, 60), Text = Color3.fromRGB(200, 200, 200), Darker = Color3.fromRGB(5, 5, 5)},
+    Light = {Main = Color3.fromRGB(240, 240, 240), Accent = Color3.fromRGB(100, 100, 100), Text = Color3.fromRGB(20, 20, 20), Darker = Color3.fromRGB(220, 220, 220)}
 }
 
 function Lib:CreateWindow(Config)
-    local CurrentTheme = Lib.Themes[Config.Theme] or Lib.Themes.Blood
+    local Theme = Lib.Themes[Config.Theme] or Lib.Themes.Blood
     local MainGui = Instance.new("ScreenGui", game.CoreGui)
-    MainGui.Name = "GGH_Royal_UI"
-
-    -- الزر العائم (تاج)
-    local ToggleBtn = Instance.new("ImageButton", MainGui)
-    ToggleBtn.Size = UDim2.new(0, 50, 0, 50); ToggleBtn.Position = UDim2.new(0.05, 0, 0.1, 0)
-    ToggleBtn.BackgroundColor3 = CurrentTheme.Main; ToggleBtn.Image = Lib.Icons.Crown; ToggleBtn.ImageColor3 = CurrentTheme.Accent
-    Instance.new("UICorner", ToggleBtn).CornerRadius = UDim.new(1, 0)
-    local BtStroke = Instance.new("UIStroke", ToggleBtn); BtStroke.Color = CurrentTheme.Accent; BtStroke.Thickness = 2
+    MainGui.Name = "GGH_Final"
 
     -- النافذة
     local MainFrame = Instance.new("Frame", MainGui)
-    MainFrame.Size = UDim2.new(0, 550, 0, 350); MainFrame.Position = UDim2.new(0.5, -275, 0.5, -175)
-    MainFrame.BackgroundColor3 = CurrentTheme.Main; Instance.new("UICorner", MainFrame).CornerRadius = UDim.new(0, 12)
-    local MainStroke = Instance.new("UIStroke", MainFrame); MainStroke.Color = CurrentTheme.Accent
+    MainFrame.Size = UDim2.new(0, 560, 0, 360)
+    MainFrame.Position = UDim2.new(0.5, -280, 0.5, -180)
+    MainFrame.BackgroundColor3 = Theme.Main
+    Instance.new("UICorner", MainFrame).CornerRadius = UDim.new(0, 12)
+    local MainStroke = Instance.new("UIStroke", MainFrame); MainStroke.Color = Theme.Accent; MainStroke.Thickness = 2
 
     -- الهيدر
     local Header = Instance.new("Frame", MainFrame)
-    Header.Size = UDim2.new(1, 0, 0, 40); Header.BackgroundColor3 = CurrentTheme.Darker; Instance.new("UICorner", Header)
-
-    local Title = Instance.new("TextLabel", Header)
-    Title.Text = Config.Name or "ROYAL"; Title.Size = UDim2.new(1, -150, 1, 0); Title.Position = UDim2.new(0, 15, 0, 0)
-    Title.TextColor3 = CurrentTheme.Text; Title.BackgroundTransparency = 1; Title.Font = "GothamBold"; Title.TextXAlignment = "Left"
-
-    -- أزرار التحكم (إعدادات، تصغير، إغلاق)
-    local Controls = Instance.new("Frame", Header)
-    Controls.Size = UDim2.new(0, 100, 1, 0); Controls.Position = UDim2.new(1, -110, 0, 0); Controls.BackgroundTransparency = 1
-    Instance.new("UIListLayout", Controls).FillDirection = "Horizontal"; Controls.UIListLayout.VerticalAlignment = "Center"; Controls.UIListLayout.Padding = UDim.new(0, 8)
-
-    local SetIcon = Instance.new("ImageButton", Controls); SetIcon.Size = UDim2.new(0, 22, 0, 22); SetIcon.Image = Lib.Icons.Settings; SetIcon.BackgroundTransparency = 1; SetIcon.ImageColor3 = CurrentTheme.Accent
-    local MinIcon = Instance.new("TextButton", Controls); MinIcon.Size = UDim2.new(0, 22, 0, 22); MinIcon.Text = "-"; MinIcon.TextColor3 = CurrentTheme.Accent; MinIcon.TextSize = 25; MinIcon.BackgroundTransparency = 1
-    local CloseIcon = Instance.new("ImageButton", Controls); CloseIcon.Size = UDim2.new(0, 22, 0, 22); CloseIcon.Image = Lib.Icons.Close; CloseIcon.BackgroundTransparency = 1; CloseIcon.ImageColor3 = CurrentTheme.Accent
-
-    -- نافذة تأكيد الإعدادات (Pop-up OK/Cancel)
-    local PopUp = Instance.new("Frame", MainFrame)
-    PopUp.Size = UDim2.new(0, 240, 0, 150); PopUp.Position = UDim2.new(0.5, -120, 0.5, -75)
-    PopUp.BackgroundColor3 = CurrentTheme.Darker; PopUp.Visible = false; PopUp.ZIndex = 10; Instance.new("UICorner", PopUp); Instance.new("UIStroke", PopUp).Color = CurrentTheme.Accent
-
-    local PopLabel = Instance.new("TextLabel", PopUp); PopLabel.Text = "Change Theme?"; PopLabel.Size = UDim2.new(1,0,0,40); PopLabel.TextColor3 = CurrentTheme.Text; PopLabel.BackgroundTransparency = 1
-    local ThemeInput = Instance.new("TextBox", PopUp); ThemeInput.Size = UDim2.new(0.8,0,0,30); ThemeInput.Position = UDim2.new(0.1,0,0.3,0); ThemeInput.PlaceholderText = "Theme Name..."; ThemeInput.BackgroundColor3 = CurrentTheme.Main; ThemeInput.TextColor3 = CurrentTheme.Text; Instance.new("UICorner", ThemeInput)
+    Header.Size = UDim2.new(1, 0, 0, 40); Header.BackgroundTransparency = 1
     
-    local OkBtn = Instance.new("TextButton", PopUp); OkBtn.Size = UDim2.new(0.4,0,0,30); OkBtn.Position = UDim2.new(0.05,0,0.7,0); OkBtn.Text = "OK"; OkBtn.BackgroundColor3 = Color3.fromRGB(0, 180, 0); OkBtn.TextColor3 = Color3.new(1,1,1); Instance.new("UICorner", OkBtn)
-    local CanBtn = Instance.new("TextButton", PopUp); CanBtn.Size = UDim2.new(0.4,0,0,30); CanBtn.Position = UDim2.new(0.55,0,0.7,0); CanBtn.Text = "Cancel"; CanBtn.BackgroundColor3 = Color3.fromRGB(180, 0, 0); CanBtn.TextColor3 = Color3.new(1,1,1); Instance.new("UICorner", CanBtn)
+    local Title = Instance.new("TextLabel", Header)
+    Title.Text = Config.Name or "GGH ROYAL V2"; Title.Size = UDim2.new(0, 200, 1, 0); Title.Position = UDim2.new(0, 15, 0, 0)
+    Title.TextColor3 = Theme.Text; Title.BackgroundTransparency = 1; Title.Font = "GothamBold"; Title.TextSize = 14; Title.TextXAlignment = "Left"
 
-    -- برمجية الهيدر
-    SetIcon.MouseButton1Click:Connect(function() PopUp.Visible = true end)
-    CanBtn.MouseButton1Click:Connect(function() PopUp.Visible = false end)
-    OkBtn.MouseButton1Click:Connect(function()
-        local t = ThemeInput.Text; if Lib.Themes[t] then CurrentTheme = Lib.Themes[t]; MainFrame.BackgroundColor3 = CurrentTheme.Main; MainStroke.Color = CurrentTheme.Accent; Header.BackgroundColor3 = CurrentTheme.Darker; PopUp.Visible = false end
+    -- أزرار التحكم العلوية (إعدادات، تصغير، إغلاق)
+    local BtnHolder = Instance.new("Frame", Header)
+    BtnHolder.Size = UDim2.new(0, 110, 1, 0); BtnHolder.Position = UDim2.new(1, -115, 0, 0); BtnHolder.BackgroundTransparency = 1
+    Instance.new("UIListLayout", BtnHolder).FillDirection = "Horizontal"; BtnHolder.UIListLayout.HorizontalAlignment = "Right"; BtnHolder.UIListLayout.VerticalAlignment = "Center"; BtnHolder.UIListLayout.Padding = UDim.new(0, 8)
+
+    local function CreateTopBtn(img, color)
+        local b = Instance.new("ImageButton", BtnHolder); b.Size = UDim2.new(0, 26, 0, 26); b.BackgroundColor3 = Color3.fromRGB(30, 30, 30); b.Image = img; b.ImageColor3 = color; Instance.new("UICorner", b).CornerRadius = UDim.new(0, 6)
+        return b
+    end
+
+    local SetBtn = CreateTopBtn("rbxassetid://10734950309", Theme.Accent)
+    local MinBtn = CreateTopBtn("rbxassetid://10723415993", Theme.Text)
+    local CloseBtn = CreateTopBtn("rbxassetid://10747363105", Color3.fromRGB(255, 50, 50))
+
+    -- [[ نوافذ الـ Pop-up (تأكيد وإعدادات) ]]
+    local function CreatePopUp(title)
+        local p = Instance.new("Frame", MainFrame); p.Size = UDim2.new(0, 260, 0, 150); p.Position = UDim2.new(0.5, -130, 0.5, -75); p.BackgroundColor3 = Theme.Darker; p.Visible = false; p.ZIndex = 100
+        Instance.new("UICorner", p); Instance.new("UIStroke", p).Color = Theme.Accent
+        local t = Instance.new("TextLabel", p); t.Text = title; t.Size = UDim2.new(1,0,0,40); t.TextColor3 = Theme.Text; t.BackgroundTransparency = 1; t.Font = "GothamBold"
+        local ok = Instance.new("TextButton", p); ok.Text = "OK"; ok.Size = UDim2.new(0.4,0,0,32); ok.Position = UDim2.new(0.05,0,0.65,0); ok.BackgroundColor3 = Color3.fromRGB(0, 160, 0); ok.TextColor3 = Color3.new(1,1,1); Instance.new("UICorner", ok)
+        local can = Instance.new("TextButton", p); can.Text = "Cancel"; can.Size = UDim2.new(0.4,0,0,32); can.Position = UDim2.new(0.55,0,0.65,0); can.BackgroundColor3 = Color3.fromRGB(160, 0, 0); can.TextColor3 = Color3.new(1,1,1); Instance.new("UICorner", can)
+        return p, ok, can
+    end
+
+    local ClosePop, CloseOk, CloseCan = CreatePopUp("Close Script?")
+    CloseBtn.MouseButton1Click:Connect(function() ClosePop.Visible = true end)
+    CloseCan.MouseButton1Click:Connect(function() ClosePop.Visible = false end)
+    CloseOk.MouseButton1Click:Connect(function() MainGui:Destroy() end)
+
+    local SetPop, SetOk, SetCan = CreatePopUp("Settings")
+    local ThemeInput = Instance.new("TextBox", SetPop); ThemeInput.Size = UDim2.new(0.8,0,0,30); ThemeInput.Position = UDim2.new(0.1,0,0.35,0); ThemeInput.PlaceholderText = "Theme Name..."; ThemeInput.BackgroundColor3 = Theme.Main; ThemeInput.TextColor3 = Theme.Text; Instance.new("UICorner", ThemeInput)
+    SetBtn.MouseButton1Click:Connect(function() SetPop.Visible = true end)
+    SetCan.MouseButton1Click:Connect(function() SetPop.Visible = false end)
+    SetOk.MouseButton1Click:Connect(function() 
+        local t = ThemeInput.Text; if Lib.Themes[t] then Theme = Lib.Themes[t]; MainFrame.BackgroundColor3 = Theme.Main; MainStroke.Color = Theme.Accent; SetPop.Visible = false end
     end)
-    CloseIcon.MouseButton1Click:Connect(function() MainGui:Destroy() end)
-    MinIcon.MouseButton1Click:Connect(function() MainFrame.Visible = false end)
-    ToggleBtn.MouseButton1Click:Connect(function() MainFrame.Visible = not MainFrame.Visible end)
 
-    -- الأقسام
-    local SideBar = Instance.new("ScrollingFrame", MainFrame)
-    SideBar.Size = UDim2.new(0, 140, 1, -50); SideBar.Position = UDim2.new(0, 10, 0, 45); SideBar.BackgroundTransparency = 1; SideBar.ScrollBarThickness = 0
-    local Container = Instance.new("Frame", MainFrame)
-    Container.Size = UDim2.new(1, -170, 1, -50); Container.Position = UDim2.new(0, 160, 0, 45); Container.BackgroundTransparency = 1
+    -- [[ هيكل التبويبات ]]
+    local Sidebar = Instance.new("Frame", MainFrame); Sidebar.Size = UDim2.new(0, 150, 1, -60); Sidebar.Position = UDim2.new(0, 10, 0, 50); Sidebar.BackgroundTransparency = 1
+    Instance.new("UIListLayout", Sidebar).Padding = UDim.new(0, 6)
+    local Container = Instance.new("Frame", MainFrame); Container.Size = UDim2.new(1, -180, 1, -60); Container.Position = UDim2.new(0, 170, 0, 50); Container.BackgroundTransparency = 1
 
     local Tabs = {}
     function Tabs:CreateTab(Name)
-        local TabBtn = Instance.new("TextButton", SideBar)
-        TabBtn.Size = UDim2.new(1, 0, 0, 35); TabBtn.BackgroundColor3 = CurrentTheme.Darker; TabBtn.Text = Name; TabBtn.TextColor3 = CurrentTheme.Text; Instance.new("UICorner", TabBtn)
-        
-        local Page = Instance.new("ScrollingFrame", Container)
-        Page.Size = UDim2.new(1, 0, 1, 0); Page.BackgroundTransparency = 1; Page.Visible = false; Page.ScrollBarThickness = 2
-        Instance.new("UIListLayout", Page).Padding = UDim.new(0, 8)
+        local TBtn = Instance.new("TextButton", Sidebar); TBtn.Size = UDim2.new(1, 0, 0, 38); TBtn.BackgroundColor3 = Color3.fromRGB(30, 30, 30); TBtn.Text = "  "..Name; TBtn.TextColor3 = Theme.Text; TBtn.TextXAlignment = "Left"; Instance.new("UICorner", TBtn)
+        local Page = Instance.new("ScrollingFrame", Container); Page.Size = UDim2.new(1, 0, 1, 0); Page.Visible = false; Page.BackgroundTransparency = 1; Page.ScrollBarThickness = 2
+        Instance.new("UIListLayout", Page).Padding = UDim.new(0, 10)
 
-        TabBtn.MouseButton1Click:Connect(function()
+        TBtn.MouseButton1Click:Connect(function()
             for _, v in pairs(Container:GetChildren()) do v.Visible = false end
             Page.Visible = true
         end)
 
         local Elements = {}
-        -- الأزرار
         function Elements:AddButton(C)
-            local B = Instance.new("TextButton", Page); B.Size = UDim2.new(1, -10, 0, 35); B.BackgroundColor3 = CurrentTheme.Darker; B.Text = C.Name; B.TextColor3 = CurrentTheme.Text; Instance.new("UICorner", B); B.MouseButton1Click:Connect(C.Callback)
+            local b = Instance.new("TextButton", Page); b.Size = UDim2.new(1, -10, 0, 38); b.BackgroundColor3 = Theme.Accent; b.Text = C.Name; b.TextColor3 = Color3.new(1,1,1); Instance.new("UICorner", b); b.MouseButton1Click:Connect(C.Callback)
         end
-        -- السلايدر
         function Elements:AddSlider(C)
-            local S = Instance.new("Frame", Page); S.Size = UDim2.new(1,-10,0,50); S.BackgroundColor3 = CurrentTheme.Darker; Instance.new("UICorner", S)
-            local T = Instance.new("TextLabel", S); T.Text = C.Name.." : "..C.Min; T.Size = UDim2.new(1,0,0,20); T.TextColor3 = CurrentTheme.Text; T.BackgroundTransparency = 1
-            local B = Instance.new("Frame", S); B.Size = UDim2.new(0.8,0,0,5); B.Position = UDim2.new(0.1,0,0.7,0); B.BackgroundColor3 = Color3.new(0,0,0)
-            local F = Instance.new("Frame", B); F.Size = UDim2.new(0,0,1,0); F.BackgroundColor3 = CurrentTheme.Accent
-            B.InputBegan:Connect(function(i) if i.UserInputType == Enum.UserInputType.MouseButton1 then 
-                local m; m = UserInputService.InputChanged:Connect(function(input) if input.UserInputType == Enum.UserInputType.MouseMovement then
-                    local p = math.clamp((Mouse.X - B.AbsolutePosition.X) / B.AbsoluteSize.X, 0, 1)
-                    F.Size = UDim2.new(p, 0, 1, 0); local val = math.floor(C.Min + (C.Max-C.Min)*p); T.Text = C.Name.." : "..val; C.Callback(val)
+            local s = Instance.new("Frame", Page); s.Size = UDim2.new(1,-10,0,55); s.BackgroundColor3 = Color3.fromRGB(25,25,25); Instance.new("UICorner", s)
+            local t = Instance.new("TextLabel", s); t.Text = C.Name.." : "..C.Min; t.Size = UDim2.new(1,0,0,25); t.TextColor3 = Theme.Text; t.BackgroundTransparency = 1
+            local bar = Instance.new("Frame", s); bar.Size = UDim2.new(0.85,0,0,6); bar.Position = UDim2.new(0.07,0,0.7,0); bar.BackgroundColor3 = Color3.new(0,0,0)
+            local fill = Instance.new("Frame", bar); fill.Size = UDim2.new(0,0,1,0); fill.BackgroundColor3 = Theme.Accent
+            bar.InputBegan:Connect(function(i) if i.UserInputType == Enum.UserInputType.MouseButton1 then 
+                local move; move = UserInputService.InputChanged:Connect(function(input) if input.UserInputType == Enum.UserInputType.MouseMovement then
+                    local p = math.clamp((Mouse.X - bar.AbsolutePosition.X) / bar.AbsoluteSize.X, 0, 1)
+                    fill.Size = UDim2.new(p, 0, 1, 0); local val = math.floor(C.Min + (C.Max-C.Min)*p); t.Text = C.Name.." : "..val; C.Callback(val)
                 end end)
-                UserInputService.InputEnded:Connect(function(i) if i.UserInputType == Enum.UserInputType.MouseButton1 then m:Disconnect() end end)
+                UserInputService.InputEnded:Connect(function(i) if i.UserInputType == Enum.UserInputType.MouseButton1 then move:Disconnect() end end)
             end end)
         end
-        -- التوجل
         function Elements:AddToggle(C)
-            local T = Instance.new("TextButton", Page); T.Size = UDim2.new(1, -10, 0, 35); T.BackgroundColor3 = CurrentTheme.Darker; T.Text = C.Name .. " : OFF"; T.TextColor3 = CurrentTheme.Text; Instance.new("UICorner", T)
-            local s = false; T.MouseButton1Click:Connect(function() s = not s; T.Text = C.Name.." : "..(s and "ON" or "OFF"); T.TextColor3 = s and CurrentTheme.Accent or CurrentTheme.Text; C.Callback(s) end)
+            local t = Instance.new("TextButton", Page); t.Size = UDim2.new(1, -10, 0, 38); t.BackgroundColor3 = Color3.fromRGB(25,25,25); t.Text = C.Name.." : OFF"; t.TextColor3 = Theme.Text; Instance.new("UICorner", t)
+            local s = false; t.MouseButton1Click:Connect(function() s = not s; t.Text = C.Name.." : "..(s and "ON" or "OFF"); t.TextColor3 = s and Theme.Accent or Theme.Text; C.Callback(s) end)
         end
-        -- القائمة المنسدلة (Dropdown)
         function Elements:AddDropdown(C)
-            local D = Instance.new("TextButton", Page); D.Size = UDim2.new(1, -10, 0, 35); D.BackgroundColor3 = CurrentTheme.Darker; D.Text = C.Name; D.TextColor3 = CurrentTheme.Text; Instance.new("UICorner", D)
-            local L = Instance.new("Frame", Page); L.Size = UDim2.new(1,-10,0,0); L.Visible = false; L.BackgroundTransparency = 1; Instance.new("UIListLayout", L)
-            D.MouseButton1Click:Connect(function() L.Visible = not L.Visible; L.Size = L.Visible and UDim2.new(1,-10,0,#C.Options*32) or UDim2.new(1,-10,0,0) end)
+            local d = Instance.new("TextButton", Page); d.Size = UDim2.new(1, -10, 0, 38); d.BackgroundColor3 = Color3.fromRGB(25,25,25); d.Text = C.Name; d.TextColor3 = Theme.Text; Instance.new("UICorner", d)
+            local l = Instance.new("Frame", Page); l.Size = UDim2.new(1,-10,0,0); l.Visible = false; l.BackgroundTransparency = 1; Instance.new("UIListLayout", l)
+            d.MouseButton1Click:Connect(function() l.Visible = not l.Visible; l.Size = l.Visible and UDim2.new(1,-10,0,#C.Options*32) or UDim2.new(1,-10,0,0) end)
             for _, o in pairs(C.Options) do
-                local Op = Instance.new("TextButton", L); Op.Size = UDim2.new(1,0,0,30); Op.BackgroundColor3 = CurrentTheme.Main; Op.Text = o; Op.TextColor3 = CurrentTheme.Text; Op.MouseButton1Click:Connect(function() D.Text = C.Name.." : "..o; L.Visible = false; C.Callback(o) end)
+                local op = Instance.new("TextButton", l); op.Size = UDim2.new(1,0,0,30); op.BackgroundColor3 = Theme.Main; op.Text = o; op.TextColor3 = Theme.Text; op.MouseButton1Click:Connect(function() d.Text = C.Name.." : "..o; l.Visible = false; C.Callback(o) end)
             end
-        end
-        -- الاختيار المتعدد (Multi-Select)
-        function Elements:AddMultiSelect(C)
-            local M = Instance.new("TextButton", Page); M.Size = UDim2.new(1, -10, 0, 35); M.BackgroundColor3 = CurrentTheme.Darker; M.Text = C.Name .. " (Multi)"; M.TextColor3 = CurrentTheme.Text; Instance.new("UICorner", M)
-            local L = Instance.new("Frame", Page); L.Size = UDim2.new(1,-10,0, #C.Options*32); L.Visible = false; L.BackgroundTransparency = 1; Instance.new("UIListLayout", L)
-            M.MouseButton1Click:Connect(function() L.Visible = not L.Visible end)
-            local sel = {}
-            for _, o in pairs(C.Options) do
-                local Op = Instance.new("TextButton", L); Op.Size = UDim2.new(1,0,0,30); Op.BackgroundColor3 = CurrentTheme.Main; Op.Text = o; Op.TextColor3 = CurrentTheme.Text
-                Op.MouseButton1Click:Connect(function() if sel[o] then sel[o] = nil; Op.TextColor3 = CurrentTheme.Text else sel[o] = true; Op.TextColor3 = CurrentTheme.Accent end; C.Callback(sel) end)
-            end
-        end
-        -- النص (Textbox)
-        function Elements:AddTextbox(C)
-            local B = Instance.new("Frame", Page); B.Size = UDim2.new(1,-10,0,35); B.BackgroundColor3 = CurrentTheme.Darker; Instance.new("UICorner", B)
-            local T = Instance.new("TextBox", B); T.Size = UDim2.new(1,0,1,0); T.Text = C.Name; T.TextColor3 = CurrentTheme.Text; T.BackgroundTransparency = 1; T.FocusLost:Connect(function() C.Callback(T.Text) end)
         end
         return Elements
     end
