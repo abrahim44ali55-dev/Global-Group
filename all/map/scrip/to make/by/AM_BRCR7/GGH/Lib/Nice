@@ -1,4 +1,4 @@
--- [[ AM_BRCR7 DIAMOND UI LIBRARY V10.0 - ANIMATIONS & LOGIC ]] --
+-- [[ AM_BRCR7 DIAMOND V10.1 - ULTIMATE MOBILE STABILITY ]] --
 local Library = {}
 local UIS = game:GetService("UserInputService")
 local TS = game:GetService("TweenService")
@@ -11,7 +11,8 @@ local Themes = {
 function Library:CreateWindow(Settings)
     local MainColor = Themes[Settings.Theme] or Themes["Cyber"]
     local ScreenGui = Instance.new("ScreenGui", game:GetService("CoreGui"))
-    
+    ScreenGui.Name = "AM_BRCR7_V10"
+
     -- [الإطار الرئيسي]
     local Main = Instance.new("Frame", ScreenGui)
     Main.Size = UDim2.new(0, 500, 0, 350); Main.Position = UDim2.new(0.5, -250, 0.5, -175)
@@ -21,62 +22,68 @@ function Library:CreateWindow(Settings)
 
     -- [الشريط العلوي]
     local TopBar = Instance.new("Frame", Main)
-    TopBar.Size = UDim2.new(1, 0, 0, 40); TopBar.BackgroundColor3 = Color3.fromRGB(25, 25, 25)
+    TopBar.Size = UDim2.new(1, 0, 0, 45); TopBar.BackgroundColor3 = Color3.fromRGB(25, 25, 25)
     Instance.new("UICorner", TopBar)
     
     local Title = Instance.new("TextLabel", TopBar)
     Title.Text = "  " .. (Settings.Name or "AM_BRCR7"); Title.Size = UDim2.new(1, 0, 1, 0); Title.TextColor3 = Color3.new(1, 1, 1); Title.BackgroundTransparency = 1; Title.TextXAlignment = 0; Title.Font = Enum.Font.GothamBold
 
     -- [أزرار التحكم]
-    local Close = Instance.new("TextButton", TopBar); Close.Text = "X"; Close.Size = UDim2.new(0, 30, 0, 30); Close.Position = UDim2.new(1, -35, 0, 5); Close.BackgroundColor3 = Color3.fromRGB(200, 50, 50); Close.TextColor3 = Color3.new(1,1,1); Instance.new("UICorner", Close)
-    local Mini = Instance.new("TextButton", TopBar); Mini.Text = "-"; Mini.Size = UDim2.new(0, 30, 0, 30); Mini.Position = UDim2.new(1, -70, 0, 5); Mini.BackgroundColor3 = Color3.fromRGB(60, 60, 60); Mini.TextColor3 = Color3.new(1,1,1); Instance.new("UICorner", Mini)
+    local Close = Instance.new("TextButton", TopBar); Close.Text = "X"; Close.Size = UDim2.new(0, 35, 0, 35); Close.Position = UDim2.new(1, -45, 0.5, -17); Close.BackgroundColor3 = Color3.fromRGB(200, 50, 50); Close.TextColor3 = Color3.new(1,1,1); Instance.new("UICorner", Close)
+    local Mini = Instance.new("TextButton", TopBar); Mini.Text = "-"; Mini.Size = UDim2.new(0, 35, 0, 35); Mini.Position = UDim2.new(1, -85, 0.5, -17); Mini.BackgroundColor3 = Color3.fromRGB(60, 60, 60); Mini.TextColor3 = Color3.new(1,1,1); Instance.new("UICorner", Mini)
 
-    -- [نافذة تأكيد الإغلاق]
-    local Confirm = Instance.new("Frame", Main); Confirm.Size = UDim2.new(1,0,1,0); Confirm.BackgroundColor3 = Color3.new(0,0,0); Confirm.BackgroundTransparency = 1; Confirm.Visible = false; Confirm.ZIndex = 10
-    local CBox = Instance.new("Frame", Confirm); CBox.Size = UDim2.new(0, 250, 0, 120); CBox.Position = UDim2.new(0.5, -125, 0.5, -60); CBox.BackgroundColor3 = Color3.fromRGB(30, 30, 30); Instance.new("UICorner", CBox)
-    local CTxt = Instance.new("TextLabel", CBox); CTxt.Text = "Are you sure?"; CTxt.Size = UDim2.new(1,0,0.5,0); CTxt.TextColor3 = Color3.new(1,1,1); CTxt.BackgroundTransparency = 1
-    local Yes = Instance.new("TextButton", CBox); Yes.Text = "Yes"; Yes.Size = UDim2.new(0, 80, 0, 30); Yes.Position = UDim2.new(0.1, 0, 0.6, 0); Yes.BackgroundColor3 = MainColor; Instance.new("UICorner", Yes)
-    local No = Instance.new("TextButton", CBox); No.Text = "No"; No.Size = UDim2.new(0, 80, 0, 30); No.Position = UDim2.new(0.6, 0, 0.6, 0); No.BackgroundColor3 = Color3.fromRGB(50, 50, 50); No.TextColor3 = Color3.new(1,1,1); Instance.new("UICorner", No)
-
-    Close.MouseButton1Click:Connect(function() Confirm.Visible = true; TS:Create(Confirm, TweenInfo.new(0.3), {BackgroundTransparency = 0.5}):Play() end)
-    No.MouseButton1Click:Connect(function() Confirm.Visible = false end)
-    Yes.MouseButton1Click:Connect(function() ScreenGui:Destroy() end)
-
-    -- [أنيميشن التصغير ذكي]
-    local minimized = false
+    -- [نظام التصغير والفتح]
+    local IsMini = false
     Mini.MouseButton1Click:Connect(function()
-        minimized = not minimized
-        local targetSize = minimized and UDim2.new(0, 500, 0, 40) or UDim2.new(0, 500, 0, 350)
-        TS:Create(Main, TweenInfo.new(0.5, Enum.EasingStyle.Quart), {Size = targetSize}):Play()
+        IsMini = not IsMini
+        local TargetSize = IsMini and UDim2.new(0, 500, 0, 45) or UDim2.new(0, 500, 0, 350)
+        TS:Create(Main, TweenInfo.new(0.4, Enum.EasingStyle.Back), {Size = TargetSize}):Play()
     end)
 
-    local Container = Instance.new("Frame", Main); Container.Size = UDim2.new(1, -145, 1, -50); Container.Position = UDim2.new(0, 140, 0, 45); Container.BackgroundTransparency = 1
-    local Sidebar = Instance.new("ScrollingFrame", Main); Sidebar.Size = UDim2.new(0, 130, 1, -50); Sidebar.Position = UDim2.new(0, 5, 0, 45); Sidebar.BackgroundTransparency = 1; Sidebar.ScrollBarThickness = 0
+    -- [تأكيد الإغلاق]
+    local ConfirmFrame = Instance.new("Frame", Main); ConfirmFrame.Size = UDim2.new(1,0,1,0); ConfirmFrame.BackgroundColor3 = Color3.new(0,0,0); ConfirmFrame.BackgroundTransparency = 1; ConfirmFrame.Visible = false; ConfirmFrame.ZIndex = 20
+    local CBox = Instance.new("Frame", ConfirmFrame); CBox.Size = UDim2.new(0, 260, 0, 130); CBox.Position = UDim2.new(0.5, -130, 0.5, -65); CBox.BackgroundColor3 = Color3.fromRGB(30, 30, 30); Instance.new("UICorner", CBox)
+    Instance.new("UIStroke", CBox).Color = MainColor
+    local CTxt = Instance.new("TextLabel", CBox); CTxt.Text = "Exit Script?"; CTxt.Size = UDim2.new(1,0,0.6,0); CTxt.TextColor3 = Color3.new(1,1,1); CTxt.BackgroundTransparency = 1; CTxt.Font = Enum.Font.GothamBold
+    local Yes = Instance.new("TextButton", CBox); Yes.Text = "Yes"; Yes.Size = UDim2.new(0, 90, 0, 35); Yes.Position = UDim2.new(0.1, 0, 0.6, 0); Yes.BackgroundColor3 = MainColor; Instance.new("UICorner", Yes)
+    local No = Instance.new("TextButton", CBox); No.Text = "No"; No.Size = UDim2.new(0, 90, 0, 35); No.Position = UDim2.new(0.55, 0, 0.6, 0); No.BackgroundColor3 = Color3.fromRGB(60,60,60); No.TextColor3 = Color3.new(1,1,1); Instance.new("UICorner", No)
+
+    Close.MouseButton1Click:Connect(function() ConfirmFrame.Visible = true; TS:Create(ConfirmFrame, TweenInfo.new(0.3), {BackgroundTransparency = 0.4}):Play() end)
+    No.MouseButton1Click:Connect(function() ConfirmFrame.Visible = false end)
+    Yes.MouseButton1Click:Connect(function() ScreenGui:Destroy() end)
+
+    local Sidebar = Instance.new("ScrollingFrame", Main); Sidebar.Size = UDim2.new(0, 130, 1, -55); Sidebar.Position = UDim2.new(0, 10, 0, 50); Sidebar.BackgroundTransparency = 1; Sidebar.ScrollBarThickness = 0
+    local Container = Instance.new("Frame", Main); Container.Size = UDim2.new(1, -160, 1, -60); Container.Position = UDim2.new(0, 150, 0, 55); Container.BackgroundTransparency = 1
 
     local Window = {}
     function Window:CreateTab(Name)
         local Page = Instance.new("ScrollingFrame", Container); Page.Size = UDim2.new(1, 0, 1, 0); Page.Visible = false; Page.BackgroundTransparency = 1; Page.ScrollBarThickness = 0
         Instance.new("UIListLayout", Page).Padding = UDim.new(0, 10)
-        local TBtn = Instance.new("TextButton", Sidebar); TBtn.Size = UDim2.new(1, 0, 0, 35); TBtn.Text = Name; TBtn.BackgroundColor3 = Color3.fromRGB(30,30,30); TBtn.TextColor3 = Color3.new(1, 1, 1); Instance.new("UICorner", TBtn)
+        local TBtn = Instance.new("TextButton", Sidebar); TBtn.Size = UDim2.new(1, 0, 0, 40); TBtn.Text = Name; TBtn.BackgroundColor3 = Color3.fromRGB(30, 30, 30); TBtn.TextColor3 = Color3.new(1, 1, 1); Instance.new("UICorner", TBtn)
         TBtn.MouseButton1Click:Connect(function() for _, v in pairs(Container:GetChildren()) do v.Visible = false end Page.Visible = true end)
 
         local Elements = {}
+        -- [سلايدر محسن 100% للجوال]
         function Elements:AddSlider(C)
-            local SFrame = Instance.new("Frame", Page); SFrame.Size = UDim2.new(1, -10, 0, 55); SFrame.BackgroundColor3 = Color3.fromRGB(30, 30, 30); Instance.new("UICorner", SFrame)
-            local Label = Instance.new("TextLabel", SFrame); Label.Text = "  " .. C.Name .. ": " .. C.Min; Label.Size = UDim2.new(1, 0, 0, 25); Label.TextColor3 = Color3.new(1, 1, 1); Label.BackgroundTransparency = 1; Label.TextXAlignment = 0
-            local SliderBar = Instance.new("Frame", SFrame); SliderBar.Size = UDim2.new(0.8, 0, 0, 6); SliderBar.Position = UDim2.new(0.1, 0, 0.7, 0); SliderBar.BackgroundColor3 = Color3.fromRGB(50, 50, 50); Instance.new("UICorner", SliderBar)
+            local SFrame = Instance.new("Frame", Page); SFrame.Size = UDim2.new(1, -10, 0, 60); SFrame.BackgroundColor3 = Color3.fromRGB(28, 28, 28); Instance.new("UICorner", SFrame)
+            local Label = Instance.new("TextLabel", SFrame); Label.Text = "  " .. C.Name .. ": " .. C.Min; Label.Size = UDim2.new(1, 0, 0, 30); Label.TextColor3 = Color3.new(1, 1, 1); Label.BackgroundTransparency = 1; Label.TextXAlignment = 0
+            local SliderBar = Instance.new("Frame", SFrame); SliderBar.Size = UDim2.new(0.85, 0, 0, 8); SliderBar.Position = UDim2.new(0.07, 0, 0.7, 0); SliderBar.BackgroundColor3 = Color3.fromRGB(50, 50, 50); Instance.new("UICorner", SliderBar)
             local Fill = Instance.new("Frame", SliderBar); Fill.Size = UDim2.new(0, 0, 1, 0); Fill.BackgroundColor3 = MainColor; Instance.new("UICorner", Fill)
-            local Knob = Instance.new("ImageButton", SliderBar); Knob.Size = UDim2.new(0, 20, 0, 20); Knob.Position = UDim2.new(0, -10, 0.5, -10); Knob.BackgroundColor3 = Color3.new(1,1,1); Instance.new("UICorner", Knob).CornerRadius = UDim.new(1, 0)
+            local Knob = Instance.new("TextButton", SliderBar); Knob.Size = UDim2.new(0, 22, 0, 22); Knob.Position = UDim2.new(0, -11, 0.5, -11); Knob.BackgroundColor3 = Color3.new(1,1,1); Knob.Text = ""; Instance.new("UICorner", Knob).CornerRadius = UDim.new(1, 0)
             
             local function Update(Input)
                 local P = math.clamp((Input.Position.X - SliderBar.AbsolutePosition.X) / SliderBar.AbsoluteSize.X, 0, 1)
-                Fill.Size = UDim2.new(P, 0, 1, 0); Knob.Position = UDim2.new(P, -10, 0.5, -10)
+                Fill.Size = UDim2.new(P, 0, 1, 0); Knob.Position = UDim2.new(P, -11, 0.5, -11)
                 local V = math.floor(C.Min + (C.Max - C.Min) * P); Label.Text = "  " .. C.Name .. ": " .. V; C.Callback(V)
             end
             local Drag = false
-            Knob.InputBegan:Connect(function(i) if i.UserInputType == Enum.UserInputType.MouseButton1 then Drag = true end end)
+            Knob.MouseButton1Down:Connect(function() Drag = true end)
             UIS.InputChanged:Connect(function(i) if Drag and (i.UserInputType == Enum.UserInputType.MouseMovement or i.UserInputType == Enum.UserInputType.Touch) then Update(i) end end)
-            UIS.InputEnded:Connect(function(i) if i.UserInputType == Enum.UserInputType.MouseButton1 then Drag = false end end)
+            UIS.InputEnded:Connect(function(i) if i.UserInputType == Enum.UserInputType.MouseButton1 or i.UserInputType == Enum.UserInputType.Touch then Drag = false end end)
+        end
+
+        function Elements:AddButton(C)
+            local B = Instance.new("TextButton", Page); B.Size = UDim2.new(1, -10, 0, 40); B.BackgroundColor3 = MainColor; B.Text = C.Name; B.Font = Enum.Font.GothamBold; B.TextColor3 = Color3.new(0,0,0); Instance.new("UICorner", B); B.MouseButton1Click:Connect(C.Callback)
         end
         return Elements
     end
