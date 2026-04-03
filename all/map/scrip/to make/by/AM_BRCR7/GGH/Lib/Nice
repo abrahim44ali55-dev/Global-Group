@@ -1,6 +1,4 @@
--- [[ GGH LIB V4.0 - THE FINAL MEGA SOURCE ]] --
--- [[ Developed by: AM_BRCR7 & GGH Team ]] --
-
+-- [[ GGH LIB V4.0 - THE PRECISE LUXURY SOURCE ]] --
 local GGH_Lib = {}
 GGH_Lib.__index = GGH_Lib
 
@@ -9,7 +7,6 @@ local TweenService = game:GetService("TweenService")
 local RunService = game:GetService("RunService")
 local Players = game:GetService("Players")
 
--- [1] نظام الثيمات الكامل (7 ثيمات)
 local Themes = {
     Neon = {Main = Color3.fromRGB(12, 12, 12), Accent = Color3.fromRGB(180, 0, 255), Text = Color3.fromRGB(255, 255, 255), Pane = Color3.fromRGB(20, 20, 20)},
     Dark = {Main = Color3.fromRGB(15, 15, 15), Accent = Color3.fromRGB(255, 255, 255), Text = Color3.fromRGB(240, 240, 240), Pane = Color3.fromRGB(25, 25, 25)},
@@ -20,7 +17,6 @@ local Themes = {
     Inferno = {Main = Color3.fromRGB(15, 5, 5), Accent = Color3.fromRGB(255, 69, 0), Text = Color3.fromRGB(255, 255, 255), Pane = Color3.fromRGB(25, 10, 10)}
 }
 
--- دالة الإنشاء السريع
 local function Create(class, props, radius)
     local obj = Instance.new(class)
     for k,v in pairs(props or {}) do if k ~= "Parent" then obj[k] = v end end
@@ -29,82 +25,89 @@ local function Create(class, props, radius)
     return obj
 end
 
--- [2] نظام الحماية (Key System)
 function GGH_Lib:InitKeySystem(config, callback)
     if not config.Enabled then callback() return end
     local Player = Players.LocalPlayer
     local InternalID = string.reverse(string.sub(Player.UserId .. "GGH", 1, 6))
-    
-    local KeyGui = Create("ScreenGui", {Parent = game.CoreGui, Name = "GGH_Auth"})
+    local KeyGui = Create("ScreenGui", {Parent = game.CoreGui})
     local Main = Create("Frame", {Parent = KeyGui, Size = UDim2.new(0, 380, 0, 220), Position = UDim2.new(0.5, -190, 0.5, -110), BackgroundColor3 = Color3.fromRGB(15, 15, 15)}, 12)
-    Create("TextLabel", {Parent = Main, Size = UDim2.new(1, 0, 0, 60), Text = "GGH SECURITY LOGIN", TextColor3 = Color3.fromRGB(180, 0, 255), Font = "GothamBold", TextSize = 20, BackgroundTransparency = 1})
-    
-    local Input = Create("TextBox", {Parent = Main, Size = UDim2.new(0.8, 0, 0, 45), Position = UDim2.new(0.1, 0, 0.35, 0), PlaceholderText = "Enter Key...", Text = "", BackgroundColor3 = Color3.fromRGB(25, 25, 25), TextColor3 = Color3.fromRGB(255, 255, 255)}, 8)
-    local Submit = Create("TextButton", {Parent = Main, Size = UDim2.new(0.4, 0, 0, 40), Position = UDim2.new(0.08, 0, 0.7, 0), Text = "Verify", BackgroundColor3 = Color3.fromRGB(180, 0, 255), TextColor3 = Color3.fromRGB(255, 255, 255)}, 8)
-    local GetKey = Create("TextButton", {Parent = Main, Size = UDim2.new(0.4, 0, 0, 40), Position = UDim2.new(0.52, 0, 0.7, 0), Text = "Get Key", BackgroundColor3 = Color3.fromRGB(35, 35, 35), TextColor3 = Color3.fromRGB(200, 200, 200)}, 8)
-    
-    Submit.MouseButton1Click:Connect(function()
-        if Input.Text == (InternalID .. config.SecretSuffix) or Input.Text == "AM_BRCR7_GGH_7" then 
-            KeyGui:Destroy() callback() 
-        else 
-            Input.Text = "" Input.PlaceholderText = "WRONG KEY!" 
-        end
-    end)
-    GetKey.MouseButton1Click:Connect(function() setclipboard(config.Link) end)
+    Create("TextLabel", {Parent = Main, Size = UDim2.new(1, 0, 0, 60), Text = "GGH SECURITY", TextColor3 = Color3.fromRGB(180, 0, 255), Font = "GothamBold", TextSize = 22, BackgroundTransparency = 1})
+    local Input = Create("TextBox", {Parent = Main, Size = UDim2.new(0.8, 0, 0, 45), Position = UDim2.new(0.1, 0, 0.35, 0), PlaceholderText = "Enter Key...", BackgroundColor3 = Color3.fromRGB(25, 25, 25), TextColor3 = Color3.fromRGB(255, 255, 255)}, 8)
+    local Submit = Create("TextButton", {Parent = Main, Size = UDim2.new(0.4, 0, 0, 40), Position = UDim2.new(0.3, 0, 0.7, 0), Text = "Verify", BackgroundColor3 = Color3.fromRGB(180, 0, 255), TextColor3 = Color3.fromRGB(255, 255, 255)}, 8)
+    Submit.MouseButton1Click:Connect(function() if Input.Text == (InternalID .. config.SecretSuffix) or Input.Text == "AM_BRCR7_GGH_7" then KeyGui:Destroy() callback() end end)
 end
 
--- [3] إنشاء النافذة (Window)
 function GGH_Lib:New(title, themeName)
     local self = setmetatable({}, GGH_Lib)
     self.Theme = Themes[themeName] or Themes.Neon
+    self.Gui = Create("ScreenGui", {Parent = game.CoreGui})
     
-    self.Gui = Create("ScreenGui", {Parent = game.CoreGui, Name = "GGH_V4"})
+    -- النافذة الرئيسية
     self.Main = Create("Frame", {Parent = self.Gui, Size = UDim2.new(0, 560, 0, 380), Position = UDim2.new(0.5, -280, 0.5, -190), BackgroundColor3 = self.Theme.Main, Active = true, Draggable = true}, 10)
     
+    -- الهيدر (الشريط العلوي)
     local Header = Create("Frame", {Parent = self.Main, Size = UDim2.new(1, 0, 0, 45), BackgroundColor3 = self.Theme.Pane}, 10)
-    Create("TextLabel", {Parent = Header, Size = UDim2.new(1, -120, 1, 0), Position = UDim2.new(0, 15, 0, 0), Text = title, TextColor3 = self.Theme.Accent, Font = "GothamBold", TextSize = 18, BackgroundTransparency = 1, TextXAlignment = "Left"})
+    Create("TextLabel", {Parent = Header, Size = UDim2.new(1, -150, 1, 0), Position = UDim2.new(0, 15, 0, 0), Text = title, TextColor3 = self.Theme.Accent, Font = "GothamBold", TextSize = 18, BackgroundTransparency = 1, TextXAlignment = "Left"})
     
-    local Close = Create("TextButton", {Parent = Header, Size = UDim2.new(0, 40, 0, 40), Position = UDim2.new(1, -45, 0, 2), Text = "×", TextColor3 = Color3.fromRGB(255, 50, 50), BackgroundTransparency = 1, TextSize = 30})
-    Close.MouseButton1Click:Connect(function() self.Gui:Destroy() end)
+    -- زر الإغلاق X مع التأكيد
+    local CloseBtn = Create("TextButton", {Parent = Header, Size = UDim2.new(0, 35, 0, 35), Position = UDim2.new(1, -40, 0, 5), Text = "×", TextSize = 25, TextColor3 = Color3.fromRGB(255, 50, 50), BackgroundTransparency = 1})
+    CloseBtn.MouseButton1Click:Connect(function()
+        local Confirm = Create("Frame", {Parent = self.Main, Size = UDim2.new(0, 200, 0, 100), Position = UDim2.new(0.5, -100, 0.5, -50), BackgroundColor3 = Color3.fromRGB(30, 30, 30)}, 8)
+        Create("TextLabel", {Parent = Confirm, Size = UDim2.new(1, 0, 0, 40), Text = "Close Script?", TextColor3 = Color3.fromRGB(255, 255, 255), BackgroundTransparency = 1})
+        local Yes = Create("TextButton", {Parent = Confirm, Size = UDim2.new(0.4, 0, 0, 30), Position = UDim2.new(0.05, 0, 0.6, 0), Text = "Yes", BackgroundColor3 = Color3.fromRGB(180, 0, 255)}, 4)
+        local No = Create("TextButton", {Parent = Confirm, Size = UDim2.new(0.4, 0, 0, 30), Position = UDim2.new(0.55, 0, 0.6, 0), Text = "No", BackgroundColor3 = Color3.fromRGB(50, 50, 50)}, 4)
+        Yes.MouseButton1Click:Connect(function() self.Gui:Destroy() end)
+        No.MouseButton1Click:Connect(function() Confirm:Destroy() end)
+    end)
     
+    -- زر التصغير -
+    local MiniBtn = Create("TextButton", {Parent = Header, Size = UDim2.new(0, 35, 0, 35), Position = UDim2.new(1, -80, 0, 5), Text = "−", TextSize = 25, TextColor3 = Color3.fromRGB(200, 200, 200), BackgroundTransparency = 1})
+    local minimized = false
+    MiniBtn.MouseButton1Click:Connect(function()
+        minimized = not minimized
+        TweenService:Create(self.Main, TweenInfo.new(0.3), {Size = minimized and UDim2.new(0, 560, 0, 45) or UDim2.new(0, 560, 0, 380)}):Play()
+    end)
+
+    -- القائمة الجانبية (Tabs List)
     self.TabList = Create("ScrollingFrame", {Parent = self.Main, Size = UDim2.new(0, 140, 1, -55), Position = UDim2.new(0, 10, 0, 50), BackgroundTransparency = 1, ScrollBarThickness = 0})
     Create("UIListLayout", {Parent = self.TabList, Padding = UDim.new(0, 6)})
     
+    -- حاوية الصفحات (Container)
     self.Container = Create("Frame", {Parent = self.Main, Size = UDim2.new(1, -170, 1, -55), Position = UDim2.new(0, 160, 0, 50), BackgroundColor3 = Color3.fromRGB(18, 18, 18)}, 8)
     self.Tabs = {}
+    self.TabButtons = {}
+    
     return self
 end
 
--- [4] إضافة التابات (Tabs)
 function GGH_Lib:AddTab(name)
-    local btn = Create("TextButton", {Parent = self.TabList, Size = UDim2.new(1, 0, 0, 38), Text = name, BackgroundColor3 = Color3.fromRGB(25, 25, 25), TextColor3 = Color3.fromRGB(180, 180, 180)}, 6)
+    local tabBtn = Create("TextButton", {Parent = self.TabList, Size = UDim2.new(1, 0, 0, 38), Text = name, BackgroundColor3 = Color3.fromRGB(25, 25, 25), TextColor3 = Color3.fromRGB(180, 180, 180)}, 6)
     local page = Create("ScrollingFrame", {Parent = self.Container, Size = UDim2.new(1, -10, 1, -10), Position = UDim2.new(0, 5, 0, 5), BackgroundTransparency = 1, Visible = false, ScrollBarThickness = 2, CanvasSize = UDim2.new(0,0,0,0)})
     local layout = Create("UIListLayout", {Parent = page, Padding = UDim.new(0, 8)})
     layout:GetPropertyChangedSignal("AbsoluteContentSize"):Connect(function() page.CanvasSize = UDim2.new(0,0,0,layout.AbsoluteContentSize.Y + 10) end)
     
-    btn.MouseButton1Click:Connect(function()
+    tabBtn.MouseButton1Click:Connect(function()
         for _,p in pairs(self.Tabs) do p.Visible = false end
+        for _,b in pairs(self.TabButtons) do b.BackgroundColor3 = Color3.fromRGB(25, 25, 25) end
         page.Visible = true
+        tabBtn.BackgroundColor3 = self.Theme.Accent
     end)
+    
     table.insert(self.Tabs, page)
-    if #self.Tabs == 1 then page.Visible = true end
+    table.insert(self.TabButtons, tabBtn)
+    if #self.Tabs == 1 then page.Visible = true tabBtn.BackgroundColor3 = self.Theme.Accent end
     return page
 end
 
--- [5] العناصر (Elements)
-
--- عنوان (Section)
 function GGH_Lib:AddSection(tab, text)
     Create("TextLabel", {Parent = tab, Size = UDim2.new(1, 0, 0, 25), Text = "— "..text:upper().." —", TextColor3 = self.Theme.Accent, BackgroundTransparency = 1, Font = "GothamBold", TextSize = 11})
 end
 
--- زر (Button)
 function GGH_Lib:AddButton(tab, text, callback)
     local b = Create("TextButton", {Parent = tab, Size = UDim2.new(1, 0, 0, 38), Text = text, BackgroundColor3 = Color3.fromRGB(35, 35, 35), TextColor3 = self.Theme.Text}, 6)
     b.MouseButton1Click:Connect(callback)
 end
 
--- توجل (Toggle)
 function GGH_Lib:AddToggle(tab, text, default, callback)
     local f = Create("Frame", {Parent = tab, Size = UDim2.new(1, 0, 0, 38), BackgroundColor3 = Color3.fromRGB(35, 35, 35)}, 6)
     Create("TextLabel", {Parent = f, Size = UDim2.new(1, -50, 1, 0), Position = UDim2.new(0, 10, 0, 0), Text = text, TextColor3 = self.Theme.Text, BackgroundTransparency = 1, TextXAlignment = "Left"})
@@ -112,7 +115,6 @@ function GGH_Lib:AddToggle(tab, text, default, callback)
     b.MouseButton1Click:Connect(function() default = not default b.BackgroundColor3 = default and self.Theme.Accent or Color3.fromRGB(60, 60, 60) callback(default) end)
 end
 
--- سلايدر (Slider)
 function GGH_Lib:AddSlider(tab, text, min, max, def, callback)
     local f = Create("Frame", {Parent = tab, Size = UDim2.new(1, 0, 0, 50), BackgroundColor3 = Color3.fromRGB(35, 35, 35)}, 6)
     local l = Create("TextLabel", {Parent = f, Size = UDim2.new(1, 0, 0, 25), Position = UDim2.new(0, 10, 0, 0), Text = text..": "..def, TextColor3 = self.Theme.Text, BackgroundTransparency = 1, TextXAlignment = "Left"})
@@ -126,13 +128,6 @@ function GGH_Lib:AddSlider(tab, text, min, max, def, callback)
         end)
         UIS.InputEnded:Connect(function(i) if i.UserInputType == Enum.UserInputType.MouseButton1 then con:Disconnect() end end)
     end)
-end
-
--- مربع نص (TextBox)
-function GGH_Lib:AddTextBox(tab, text, holder, callback)
-    local f = Create("Frame", {Parent = tab, Size = UDim2.new(1, 0, 0, 45), BackgroundColor3 = Color3.fromRGB(35, 35, 35)}, 6)
-    local i = Create("TextBox", {Parent = f, Size = UDim2.new(1, -20, 0, 30), Position = UDim2.new(0, 10, 0, 7), PlaceholderText = holder, Text = "", BackgroundColor3 = Color3.fromRGB(25, 25, 25), TextColor3 = Color3.fromRGB(255, 255, 255)}, 6)
-    i.FocusLost:Connect(function() callback(i.Text) end)
 end
 
 return GGH_Lib
