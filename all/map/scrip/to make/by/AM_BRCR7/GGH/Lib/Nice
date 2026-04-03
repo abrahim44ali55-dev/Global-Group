@@ -1,80 +1,129 @@
--- [[ GGH ROYAL V7.3 - THE STABLE RETURN OF SLIDER ]] --
-local Lib = {}
-local UserInputService = game:GetService("UserInputService")
+-- [[ GGH LIB V3 - OFFICIAL LIBRARY SOURCE ]] --
+local GGH_Lib = {}
+GGH_Lib.__index = GGH_Lib
+
+local UIS = game:GetService("UserInputService")
 local TweenService = game:GetService("TweenService")
+local RunService = game:GetService("RunService")
+local Players = game:GetService("Players")
 
-function Lib:CreateWindow(Config)
-    local MainGui = Instance.new("ScreenGui", game.CoreGui)
-    
-    -- [ Confirmation GUI - Returned & Beautiful ]
-    local ConfirmGui = Instance.new("Frame", MainGui)
-    ConfirmGui.Size = UDim2.new(0, 300, 0, 150); ConfirmGui.Position = UDim2.new(0.5, -150, 0.5, -75); ConfirmGui.BackgroundColor3 = Color3.new(0,0,0); ConfirmGui.Visible = false; ConfirmGui.ZIndex = 10; ConfirmGui.ClipsDescendants = true
-    Instance.new("UICorner", ConfirmGui).CornerRadius = UDim.new(0,10); Instance.new("UIStroke", ConfirmGui).Color = Color3.fromRGB(80,0,0)
-    
-    local Msg = Instance.new("TextLabel", ConfirmGui); Msg.Text = "Are you sure you want to close GGH Royal?"; Msg.Size = UDim2.new(1,0,0,70); Msg.Position = UDim2.new(0,0,0,10); Msg.TextColor3 = Color3.new(1,1,1); Msg.BackgroundTransparency = 1; Msg.TextWrapped = true; Msg.Font = "Gotham"
-    local Yes = Instance.new("TextButton", ConfirmGui); Yes.Text = "Close"; Yes.Size = UDim2.new(0,100,0,35); Yes.Position = UDim2.new(0.1,0,0.65,0); Yes.BackgroundColor3 = Color3.fromRGB(50,0,0); Yes.TextColor3 = Color3.new(1,1,1); Instance.new("UICorner", Yes)
-    local No = Instance.new("TextButton", ConfirmGui); No.Text = "Cancel"; No.Size = UDim2.new(0,100,0,35); No.Position = UDim2.new(0.6,0,0.65,0); No.BackgroundColor3 = Color3.fromRGB(30,30,30); No.TextColor3 = Color3.new(1,1,1); Instance.new("UICorner", No)
+local Themes = {
+	Neon = {Main = Color3.fromRGB(12, 12, 12), Accent = Color3.fromRGB(180, 0, 255), Text = Color3.fromRGB(255, 255, 255)},
+	Dark = {Main = Color3.fromRGB(15, 15, 15), Accent = Color3.fromRGB(255, 255, 255), Text = Color3.fromRGB(240, 240, 240)},
+	Aqua = {Main = Color3.fromRGB(10, 20, 25), Accent = Color3.fromRGB(0, 255, 255), Text = Color3.fromRGB(255, 255, 255)},
+	Sakura = {Main = Color3.fromRGB(20, 10, 15), Accent = Color3.fromRGB(255, 105, 180), Text = Color3.fromRGB(255, 255, 255)},
+	Emerald = {Main = Color3.fromRGB(10, 20, 10), Accent = Color3.fromRGB(0, 255, 127), Text = Color3.fromRGB(255, 255, 255)},
+	Gold = {Main = Color3.fromRGB(15, 15, 10), Accent = Color3.fromRGB(255, 215, 0), Text = Color3.fromRGB(255, 255, 255)},
+	Inferno = {Main = Color3.fromRGB(15, 5, 5), Accent = Color3.fromRGB(255, 69, 0), Text = Color3.fromRGB(255, 255, 255)}
+}
 
-    Yes.MouseButton1Click:Connect(function() MainGui:Destroy() end)
-    No.MouseButton1Click:Connect(function() ConfirmGui.Visible = false end)
+local CurrentTheme = Themes.Neon
 
-    -- [ Main Window - Original Beautiful Design Returned ]
-    local MainFrame = Instance.new("Frame", MainGui)
-    MainFrame.Size = UDim2.new(0, 580, 0, 380); MainFrame.Position = UDim2.new(0.5, -290, 0.5, -190); MainFrame.BackgroundColor3 = Color3.new(0,0,0); MainFrame.ClipsDescendants = true
-    Instance.new("UICorner", MainFrame); Instance.new("UIStroke", MainFrame).Color = Color3.fromRGB(45,45,45)
-    
-    local CloseBtn = Instance.new("TextButton", MainFrame); CloseBtn.Text = "×"; CloseBtn.Size = UDim2.new(0, 32, 0, 32); CloseBtn.Position = UDim2.new(1, -42, 0, 9); CloseBtn.BackgroundColor3 = Color3.fromRGB(25, 25, 25); CloseBtn.TextColor3 = Color3.fromRGB(255, 50, 50); Instance.new("UICorner", CloseBtn)
-    local MinBtn = Instance.new("TextButton", MainFrame); MinBtn.Text = "-"; MinBtn.Size = UDim2.new(0, 32, 0, 32); MinBtn.Position = UDim2.new(1, -82, 0, 9); MinBtn.BackgroundColor3 = Color3.fromRGB(25, 25, 25); MinBtn.TextColor3 = Color3.new(1,1,1); Instance.new("UICorner", MinBtn)
-    
-    CloseBtn.MouseButton1Click:Connect(function() ConfirmGui.Visible = true end)
-
-    local Content = Instance.new("Frame", MainFrame); Content.Size = UDim2.new(1, 0, 1, -50); Content.Position = UDim2.new(0, 0, 0, 50); Content.BackgroundTransparency = 1
-    local Pages = Instance.new("Frame", Content); Pages.Size = UDim2.new(1, -190, 1, -20); Pages.Position = UDim2.new(0, 180, 0, 10); Pages.BackgroundTransparency = 1
-
-    -- Minimize Logic (Clean)
-    MinBtn.MouseButton1Click:Connect(function() local isMin = MainFrame.Size.Y.Offset < 60; Content.Visible = isMin; TweenService:Create(MainFrame, TweenInfo.new(0.35), {Size = isMin and UDim2.new(0, 580, 0, 380) or UDim2.new(0, 580, 0, 50)}):Play() end)
-
-    -- Floating Home Button (Returned)
-    local Float = Instance.new("ImageButton", MainGui); Float.Size = UDim2.new(0, 50, 0, 50); Float.Position = UDim2.new(0, 20, 0.5, -25); Float.BackgroundColor3 = Color3.new(0,0,0); Float.Image = "rbxassetid://6031073476"; Float.Draggable = true; Float.Active = true; Instance.new("UICorner", Float).CornerRadius = UDim.new(1, 0)
-    Float.MouseButton1Click:Connect(function() MainFrame.Visible = not MainFrame.Visible end)
-
-    local Tabs = {}
-    function Tabs:CreateTab(Name)
-        local Page = Instance.new("ScrollingFrame", Pages); Page.Size = UDim2.new(1, 0, 1, 0); Page.Visible = false; Page.BackgroundTransparency = 1; Page.AutomaticCanvasSize = "Y"; Page.ScrollBarThickness = 2
-        Instance.new("UIListLayout", Page).Padding = UDim.new(0, 8)
-        
-        local Sidebar = Instance.new("ScrollingFrame", Content); Sidebar.Size = UDim2.new(0, 160, 1, -20); Sidebar.Position = UDim2.new(0, 10, 0, 10); Sidebar.BackgroundTransparency = 1; Sidebar.ScrollBarThickness = 0; Sidebar.AutomaticCanvasSize = "Y"
-        Instance.new("UIListLayout", Sidebar).Padding = UDim.new(0, 5)
-        local TBtn = Instance.new("TextButton", Sidebar); TBtn.Size = UDim2.new(1, 0, 0, 40); TBtn.Text = Name; TBtn.BackgroundColor3 = Color3.fromRGB(20,20,20); TBtn.TextColor3 = Color3.new(1,1,1); Instance.new("UICorner", TBtn)
-        TBtn.MouseButton1Click:Connect(function() for _,v in pairs(Pages:GetChildren()) do v.Visible = false end; Page.Visible = true end)
-
-        local Elements = {}
-        -- 1. Slider (Repaired Smoothness & Functional Returned)
-        function Elements:AddSlider(n, min, max, cb)
-            local s = Instance.new("Frame", Page); s.Size = UDim2.new(1,-10,0,50); s.BackgroundColor3 = Color3.fromRGB(15,15,15); Instance.new("UICorner", s)
-            local t = Instance.new("TextLabel", s); t.Text = n.." : "..min; t.Size = UDim2.new(1,0,0,20); t.TextColor3 = Color3.new(1,1,1); t.BackgroundTransparency = 1; t.Font = "Gotham"
-            local bar = Instance.new("Frame", s); bar.Size = UDim2.new(0.9,0,0,4); bar.Position = UDim2.new(0.05,0,0.7,0); bar.BackgroundColor3 = Color3.fromRGB(40,40,40)
-            local fill = Instance.new("Frame", bar); fill.Size = UDim2.new(0,0,1,0); fill.BackgroundColor3 = Color3.new(1,1,1)
-            bar.InputBegan:Connect(function(i) if i.UserInputType == Enum.UserInputType.MouseButton1 then local m = UserInputService.InputChanged:Connect(function(input) local p = math.clamp((input.Position.X - bar.AbsolutePosition.X) / bar.AbsoluteSize.X, 0, 1) local val = math.floor(min + (max-min)*p) fill.Size = UDim2.new(p,0,1,0) t.Text = n.." : "..val cb(val) end) UserInputService.InputEnded:Connect(function(i2) if i2.UserInputType == Enum.UserInputType.MouseButton1 then m:Disconnect() end end) end end)
-        end
-        -- 2. Toggle (Beautiful Green Returned)
-        function Elements:AddToggle(n, cb)
-            local t = Instance.new("TextButton", Page); t.Size = UDim2.new(1,-10,0,40); t.Text = "  "..n; t.TextXAlignment = "Left"; t.BackgroundColor3 = Color3.fromRGB(20,20,20); t.TextColor3 = Color3.new(1,1,1); Instance.new("UICorner", t)
-            local b = Instance.new("Frame", t); b.Size = UDim2.new(0,20,0,20); b.Position = UDim2.new(1,-30,0.5,-10); b.BackgroundColor3 = Color3.fromRGB(40,40,40); Instance.new("UICorner", b)
-            local on = false; t.MouseButton1Click:Connect(function() on = not on; b.BackgroundColor3 = on and Color3.new(0,1,0) or Color3.fromRGB(40,40,40); cb(on) end)
-        end
-        -- 3. Dropdown (Real Select Mode Returned)
-        function Elements:AddDropdown(n, list, cb)
-            local d = Instance.new("TextButton", Page); d.Size = UDim2.new(1,-10,0,40); d.Text = n.."  ▼"; d.BackgroundColor3 = Color3.fromRGB(25,25,25); d.TextColor3 = Color3.new(1,1,1); Instance.new("UICorner", d)
-            local holder = Instance.new("Frame", Page); holder.Size = UDim2.new(1,-10,0,#list*30); holder.Visible = false; holder.BackgroundColor3 = Color3.fromRGB(15,15,15); Instance.new("UICorner", holder)
-            Instance.new("UIListLayout", holder)
-            d.MouseButton1Click:Connect(function() holder.Visible = not holder.Visible end)
-            for _,v in pairs(list) do local o = Instance.new("TextButton", holder); o.Size = UDim2.new(1,0,0,30); o.Text = v; o.BackgroundColor3 = Color3.fromRGB(20,20,20); o.TextColor3 = Color3.new(1,1,1) o.MouseButton1Click:Connect(function() cb(v); d.Text = v.."  ▼"; holder.Visible = false end) end
-        end
-        -- Other elements...
-        function Elements:AddParagraph(n) local p = Instance.new("TextLabel", Page); p.Size = UDim2.new(1,-10,0,60); p.Text = n; p.BackgroundColor3 = Color3.fromRGB(15,15,15); p.TextColor3 = Color3.new(0.7,0.7,0.7); p.TextWrapped = true; Instance.new("UICorner", p) end
-        return Elements
-    end
-    return Tabs
+local function Create(class, props, radius)
+	local obj = Instance.new(class)
+	for k,v in pairs(props or {}) do if k ~= "Parent" then obj[k] = v end end
+	if radius then
+		local corner = Instance.new("UICorner")
+		corner.CornerRadius = UDim.new(0, radius)
+		corner.Parent = obj
+	end
+	if props and props.Parent then obj.Parent = props.Parent end
+	return obj
 end
-return Lib
+
+-- [ نظام المفتاح ] --
+function GGH_Lib:InitKeySystem(config, callback)
+	if not config.Enabled then callback() return end
+	
+	local Player = Players.LocalPlayer
+	local InternalID = string.reverse(string.sub(Player.UserId .. "GGH", 1, 6))
+	local MASTER_KEY = "AM_BRCR7_GGH_7"
+	
+	local KeyGui = Create("ScreenGui", {Parent = game.CoreGui, Name = "GGH_Auth"})
+	local Main = Create("Frame", {Parent = KeyGui, Size = UDim2.new(0, 380, 0, 220), Position = UDim2.new(0.5, -190, 0.5, -110), BackgroundColor3 = Color3.fromRGB(15,15,15)}, 12)
+	
+	Create("TextLabel", {Parent = Main, Size = UDim2.new(1,0,0,60), Text = "GGH SECURITY LOGIN", TextColor3 = Color3.fromRGB(180,0,255), Font = Enum.Font.GothamBold, TextSize = 20, BackgroundTransparency = 1})
+	
+	local Input = Create("TextBox", {Parent = Main, Size = UDim2.new(0.8, 0, 0, 45), Position = UDim2.new(0.1, 0, 0.35, 0), PlaceholderText = "Enter Your Secret Key...", Text = "", BackgroundColor3 = Color3.fromRGB(25,25,25), TextColor3 = Color3.fromRGB(255,255,255), Font = Enum.Font.Gotham, TextSize = 14}, 8)
+	local Submit = Create("TextButton", {Parent = Main, Size = UDim2.new(0.35, 0, 0, 40), Position = UDim2.new(0.1, 0, 0.7, 0), Text = "Verify", BackgroundColor3 = Color3.fromRGB(180,0,255), TextColor3 = Color3.fromRGB(255,255,255), Font = Enum.Font.GothamBold}, 8)
+	local GetKey = Create("TextButton", {Parent = Main, Size = UDim2.new(0.35, 0, 0, 40), Position = UDim2.new(0.55, 0, 0.7, 0), Text = "Get Key", BackgroundColor3 = Color3.fromRGB(40,40,40), TextColor3 = Color3.fromRGB(255,255,255), Font = Enum.Font.GothamBold}, 8)
+	
+	Submit.MouseButton1Click:Connect(function()
+		if Input.Text == MASTER_KEY or Input.Text == (InternalID .. config.SecretSuffix) then 
+			KeyGui:Destroy() 
+			callback()
+		else 
+			Input.Text = "" 
+			Input.PlaceholderText = "WRONG KEY!" 
+		end
+	end)
+	
+	GetKey.MouseButton1Click:Connect(function() setclipboard(config.Link) end)
+end
+
+-- [ إنشاء الواجهة ] --
+function GGH_Lib:New(title, themeName)
+	local selfObj = setmetatable({}, GGH_Lib)
+	CurrentTheme = Themes[themeName] or Themes.Neon
+	
+	selfObj.ScreenGui = Create("ScreenGui", {Parent = game.CoreGui, Name = "GGH_V3_Final", ResetOnSpawn = false})
+	selfObj.MainFrame = Create("Frame", {Parent = selfObj.ScreenGui, Size = UDim2.new(0, 560, 0, 360), Position = UDim2.new(0.5, -280, 0.5, -180), BackgroundColor3 = CurrentTheme.Main, Active = true, Draggable = true, ClipsDescendants = true}, 12)
+
+	selfObj.Header = Create("Frame", {Parent = selfObj.MainFrame, Size = UDim2.new(1, 0, 0, 45), BackgroundColor3 = Color3.fromRGB(20,20,20)}, 12)
+	selfObj.Title = Create("TextLabel", {Parent = selfObj.Header, Size = UDim2.new(1, -120, 1, 0), Position = UDim2.new(0, 15, 0, 0), BackgroundTransparency = 1, Text = title or "GGH HUB V3", TextColor3 = CurrentTheme.Text, Font = Enum.Font.GothamBold, TextSize = 18, TextXAlignment = Enum.TextXAlignment.Left})
+
+	local closeBtn = Create("TextButton", {Parent = selfObj.Header, Size = UDim2.new(0, 35, 0, 35), Position = UDim2.new(1, -40, 0.5, -17), Text = "×", TextColor3 = Color3.fromRGB(255, 50, 50), BackgroundTransparency = 1, Font = Enum.Font.GothamBold, TextSize = 30})
+	local minBtn = Create("TextButton", {Parent = selfObj.Header, Size = UDim2.new(0, 35, 0, 35), Position = UDim2.new(1, -75, 0.5, -17), Text = "−", TextColor3 = CurrentTheme.Text, BackgroundTransparency = 1, Font = Enum.Font.GothamBold, TextSize = 30})
+
+	selfObj.Container = Create("Frame", {Parent = selfObj.MainFrame, Size = UDim2.new(1, 0, 1, -45), Position = UDim2.new(0, 0, 0, 45), BackgroundTransparency = 1})
+	
+	minBtn.MouseButton1Click:Connect(function()
+		local isMin = selfObj.MainFrame.Size.Y.Offset < 100
+		minBtn.Text = isMin and "−" or "+"
+		selfObj.MainFrame:TweenSize(isMin and UDim2.new(0, 560, 0, 360) or UDim2.new(0, 560, 0, 45), "Out", "Quart", 0.3, true)
+		selfObj.Container.Visible = isMin
+	end)
+
+	closeBtn.MouseButton1Click:Connect(function()
+		local confirm = Create("Frame", {Parent = selfObj.ScreenGui, Size = UDim2.new(0, 280, 0, 130), Position = UDim2.new(0.5, -140, 0.5, -65), BackgroundColor3 = CurrentTheme.Main, BorderSizePixel = 2, BorderColor3 = CurrentTheme.Accent}, 12)
+		Create("TextLabel", {Parent = confirm, Size = UDim2.new(1, 0, 0, 60), Text = "Close script and stop all features?", TextColor3 = CurrentTheme.Text, BackgroundTransparency = 1, Font = Enum.Font.GothamMedium, TextSize = 14, TextWrapped = true})
+		local y = Create("TextButton", {Parent = confirm, Size = UDim2.new(0, 90, 0, 35), Position = UDim2.new(0.1, 0, 0.65, 0), Text = "YES", BackgroundColor3 = Color3.fromRGB(0, 150, 0), TextColor3 = Color3.fromRGB(255,255,255)}, 8)
+		local n = Create("TextButton", {Parent = confirm, Size = UDim2.new(0, 90, 0, 35), Position = UDim2.new(0.55, 0, 0.65, 0), Text = "NO", BackgroundColor3 = Color3.fromRGB(150, 0, 0), TextColor3 = Color3.fromRGB(255,255,255)}, 8)
+		y.MouseButton1Click:Connect(function() selfObj.ScreenGui:Destroy() end)
+		n.MouseButton1Click:Connect(function() confirm:Destroy() end)
+	end)
+
+	selfObj.TabList = Create("ScrollingFrame", {Parent = selfObj.Container, Size = UDim2.new(0, 140, 1, -10), Position = UDim2.new(0, 10, 0, 5), BackgroundTransparency = 1, ScrollBarThickness = 0, CanvasSize = UDim2.new(0,0,0,0)})
+	Create("UIListLayout", {Parent = selfObj.TabList, Padding = UDim.new(0, 6)}):GetPropertyChangedSignal("AbsoluteContentSize"):Connect(function() selfObj.TabList.CanvasSize = UDim2.new(0,0,0,selfObj.TabList.UIListLayout.AbsoluteContentSize.Y) end)
+	selfObj.ContentHolder = Create("Frame", {Parent = selfObj.Container, Size = UDim2.new(1, -170, 1, -10), Position = UDim2.new(0, 160, 0, 5), BackgroundColor3 = Color3.fromRGB(22,22,22), ClipsDescendants = true}, 10)
+
+	selfObj.Tabs = {}
+	selfObj.TabButtons = {}
+	return selfObj
+end
+
+function GGH_Lib:AddTab(name)
+	local tabBtn = Create("TextButton", {Parent = self.TabList, Size = UDim2.new(1, -5, 0, 40), Text = name, BackgroundColor3 = Color3.fromRGB(35,35,35), TextColor3 = Color3.fromRGB(180,180,180), Font = Enum.Font.GothamMedium, TextSize = 13}, 8)
+	local scroll = Create("ScrollingFrame", {Parent = self.ContentHolder, Size = UDim2.new(1, -12, 1, -12), Position = UDim2.new(0, 6, 0, 6), BackgroundTransparency = 1, Visible = false, ScrollBarThickness = 2})
+	Create("UIListLayout", {Parent = scroll, Padding = UDim.new(0, 10)}):GetPropertyChangedSignal("AbsoluteContentSize"):Connect(function() scroll.CanvasSize = UDim2.new(0,0,0,scroll.UIListLayout.AbsoluteContentSize.Y + 20) end)
+
+	tabBtn.MouseButton1Click:Connect(function()
+		for _, s in pairs(self.Tabs) do s.Visible = false end
+		for _, b in pairs(self.TabButtons) do b.TextColor3 = Color3.fromRGB(180,180,180) b.BackgroundColor3 = Color3.fromRGB(35,35,35) end
+		scroll.Visible = true
+		tabBtn.TextColor3 = CurrentTheme.Accent
+		tabBtn.BackgroundColor3 = Color3.fromRGB(45,45,45)
+	end)
+	table.insert(self.Tabs, scroll)
+	table.insert(self.TabButtons, tabBtn)
+	return scroll
+end
+
+function GGH_Lib:AddSection(tab, text) Create("TextLabel", {Parent = tab, Size = UDim2.new(1, 0, 0, 25), Text = "— "..text:upper().." —", TextColor3 = CurrentTheme.Accent, BackgroundTransparency = 1, Font = Enum.Font.GothamBold, TextSize = 11, TextTransparency = 0.5}) end
+
+function GGH_Lib:AddButton(tab, text, callback) 
+	local btn = Create("TextButton", {Parent = tab, Size = UDim2.new(1, 0, 0, 40), Text = text, BackgroundColor3 = Color3.fromRGB(45,45,45), TextColor3 = CurrentTheme.Text, Font = Enum.Font.GothamSemibold, TextSize = 14}, 8)
+	btn.MouseButton1Click:Connect(callback)
+end
+
+return GGH_Lib
