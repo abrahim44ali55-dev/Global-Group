@@ -1,4 +1,3 @@
---GGH library version 1.0
 -- ══════════════════════════════════════════════════════════════════════
 -- SERVICES
 -- ══════════════════════════════════════════════════════════════════════
@@ -213,6 +212,7 @@ end
 -- ══════════════════════════════════════════════════════════════════════
 -- THEME & HELPERS
 -- ══════════════════════════════════════════════════════════════════════
+-- ── نظام الثيمات المتكامل (10 ثيمات) ──────────────────────────────────
 local AllThemes = {
     ["Emerald"] = { -- 1. ثيم الزمرد
         Accent        = Color3.fromRGB(0, 200, 100),
@@ -345,6 +345,10 @@ local AllThemes = {
         TextDisabled  = Color3.fromRGB(60, 70, 50),
     }
 }
+
+-- ربط الثيمات بجدول Library الرئيسي واختيار "الزمرد" كافتراضي
+Library.AllThemes = AllThemes
+Library.Theme = AllThemes["Bloodline"]
 
 local function tw(obj, goal, ti, cb)
 	local t = TweenService:Create(obj, ti or TI_FAST, goal)
@@ -2878,7 +2882,7 @@ Instance.new("UICorner", bub).CornerRadius = UDim.new(0, 6)
 		})
 
 		S:Section({ name = "Info" })
-		S:Label({ text = "GGH" .. Library.Version .. " })
+S:Label({ text = "GGH " .. Library.Version })
 		S:Label({ text = "Logged in as: " .. LP.Name .. "  (UserId: " .. LP.UserId .. ")" })
 		S:Label({ text = "Toggle: " .. keys.toggle.Name .. "   |   Minimize: " .. keys.minimize.Name })
 		S:Divider()
